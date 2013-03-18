@@ -38,14 +38,14 @@ describe('#TestSuite', function(){
 
   it('first runs global before and beforeEach', function(){
     expect(globalBefore).to.equal(1);
-    expect(globalBeforeEach).to.equal(1);
+    expect(globalBeforeEach).to.equal(2);
     expect(localCounter).to.equal(1);
     localCounter++;
   });
 
   it('then runs local before and beforeEach', function(){
     expect(localBefore).to.equal(1);
-    expect(localBeforeEach).to.equal(1);
+    expect(localBeforeEach).to.equal(3);
     expect(localCounter).to.equal(2);
     localCounter++;
   });
@@ -76,13 +76,13 @@ describe('#TestSuite', function(){
 
 it('may have tests without description', function(){
   expect(globalBefore).to.equal(1);
-  expect(globalBeforeEach).to.equal(2);
+  expect(globalBeforeEach).to.equal(5);
   expect(globalAfterEach).to.equal(4);
 });
 
 it('calls global beforeEach and afterEach for tests on top scope', function(){
-  expect(globalBefore).to.equal(2);
-  expect(globalBeforeEach).to.equal(3);
+  expect(globalBefore).to.equal(1);
+  expect(globalBeforeEach).to.equal(6);
   expect(globalAfterEach).to.equal(5);
 });
 

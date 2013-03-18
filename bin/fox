@@ -4,6 +4,7 @@ var opt     = require('optimist'),
     help    = require('../lib/help'),
     version = require('../lib/version'),
     browser = require('../lib/browser'),
+    grep    = require('../lib/grep'),
     cli     = require('../lib/cli');
 
 var argv = opt
@@ -15,6 +16,6 @@ var argv = opt
 
 if(argv.help) help();
 if(argv.version) version();
-
+if(argv.grep) grep.pattern(argv.grep);
 if(argv.browser) browser(argv);
 else cli(argv);
