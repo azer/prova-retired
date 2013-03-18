@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+var opt     = require('optimist'),
+    help    = require('../lib/help'),
+    version = require('../lib/version'),
+    browser = require('../lib/browser'),
+    cli     = require('../lib/cli');
+
+var argv = opt
+      .options('browser', { alias: 'b' })
+      .options('grep', { alias: 'g' })
+      .options('version', { alias: 'v' })
+      .options('help', { alias: 'h' })
+      .argv;
+
+if(argv.help) help();
+if(argv.version) version();
+
+if(argv.browser) browser(argv);
+else cli(argv);
