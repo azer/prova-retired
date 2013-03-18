@@ -1,11 +1,12 @@
-USAGE
-  fox [options] [module]
 
-The testing tool I like.
+    USAGE
 
-OPTIONS
+        fox [options] [module]
 
-  -b --browser    Publishes the tests on localhost:7559
-  -g --grep       Run tests matching with given pattern
-  -v --version    Show version and exit
-  -h --help       Show help and exit
+    OPTIONS
+
+        -b    --browser    Publishes the tests on localhost:7559
+        -g    --grep       Run tests matching with given pattern
+        -t    --timeout    Set test-case timeout in milliseconds [2000]
+        -v    --version    Show version and exit
+        -h    --help       Show help and exit

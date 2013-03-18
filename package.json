@@ -12,6 +12,7 @@
   "dependencies": {
     "ada-pubsub"   : "*",
     "ada-on"       : "*",
+    "ada-prop"     : "*",
     "optimist"     : "0.x",
     "chai"         : "1.x",
     "cli-color"    : "0.x",
