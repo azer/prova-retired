@@ -1,8 +1,8 @@
-fox a new JavaScript testing framework running on NodeJS and browsers. 
+fox is a new JavaScript testing framework running on NodeJS and browsers. 
 It requires no ceremony, let's you write and run tests quickly.
 
-```
-$ npm install fox
+```bash
+$ npm install -g fox
 ```
 
 # USAGE
