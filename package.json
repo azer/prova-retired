@@ -1,29 +1,29 @@
 {
   "name": "fox",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The testing tool I like.",
   "main": "lib/index.js",
-  "bin":{
-    "fox":"./bin/fox"
+  "bin": {
+    "fox": "./bin/fox"
   },
   "scripts": {
     "test": "fox"
   },
   "dependencies": {
-    "ada-pubsub"   : "*",
-    "ada-on"       : "*",
-    "ada-prop"     : "*",
-    "optimist"     : "0.x",
-    "chai"         : "1.x",
-    "cli-color"    : "0.x",
-    "one"          : "2.x",
-    "glob"         : "3.x",
-    "map"          : "*",
-    "require-like" : "0.x",
-    "express"      : "3.x"
+    "ada-pubsub": "*",
+    "ada-on": "*",
+    "ada-prop": "*",
+    "optimist": "0.x",
+    "chai": "1.x",
+    "cli-color": "0.x",
+    "one": "2.x",
+    "glob": "3.x",
+    "map": "*",
+    "require-like": "0.x",
+    "express": "3.x"
   },
   "repository": {
-    "url": "git@github.com:azer\/fox.git",
+    "url": "git@github.com:azer/fox.git",
     "type": "git"
   },
   "author": "Azer Koculu <azer@kodfabrik.com>",
