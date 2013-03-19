@@ -1,6 +1,10 @@
 fox a new JavaScript testing framework running on NodeJS and browsers. 
 It requires no ceremony, let's you write and run tests quickly.
 
+```
+$ npm install fox
+```
+
 # USAGE
 
 Create a new test document and name it `test.js`. [ChaiJS'](http://chaijs.com) `expect` and `assert` modules are injected by default;
@@ -36,4 +40,4 @@ test modules and publishes a web page where you can run and see the test results
 
 ### BDD API
 
-Enabled BDD API: before, beforEach, describe, it, afterEach, after
+before, beforEach, describe, it, afterEach, after
