@@ -4593,6 +4593,41 @@ function findManifest(paths){
 
 
 
+'lib/clean-stack-trace': function(module, exports, global, require, undefined){
+  module.exports = cleanStackTrace;
+
+function cleanStackTrace(stack){
+
+  if(!stack) return '';
+
+  return stack
+        .split('\n')
+        .filter(function(line){
+          return !isFoxTrace(line) && !isChaiTrace(line) && !isJQueryTrace(line);
+        })
+        .filter(function(el, ind, list){
+          return list[ind-1] != el;
+        })
+        .slice(0, 10)
+        .join('\n');
+}
+
+function isJQueryTrace(line){
+  return /\/jquery\.min\.js/.test(line);
+}
+
+function isFoxTrace(line){
+  return /\/fox\/(lib|bin|node_modules)/.test(line) || /\/fox\.js/.test(line) || /\/fox-runner\.js/.test(line);
+}
+
+function isChaiTrace(line){
+  return /\/chai\/(lib|bin|node_modules)/.test(line);
+}
+
+}, 
+
+
+
 'lib/cli': function(module, exports, global, require, undefined){
   var paths      = require('./paths'),
     loadModule = require('./load-module'),
@@ -4649,34 +4684,11 @@ function onRun(updates){
 
 
 'lib/error': function(module, exports, global, require, undefined){
-  var fs   = require('fs'),
-    path = require("path");
+  var fs              = require('fs'),
+    path            = require("path"),
+    cleanStackTrace = require('./clean-stack-trace');
 
 module.exports = newError;
-
-function cleanStackTrace(stack){
-
-  if(!stack) return '';
-
-  return stack
-        .split('\n')
-        .filter(function(line){
-          return !isFoxTrace(line) && !isChaiTrace(line);
-        })
-        .filter(function(el, ind, list){
-          return list[ind-1] != el;
-        })
-        .slice(0, 10)
-        .join('\n');
-}
-
-function isFoxTrace(line){
-  return /\/fox\/(lib|bin|node_modules)/.test(line);
-}
-
-function isChaiTrace(line){
-  return /\/chai\/(lib|bin|node_modules)/.test(line);
-}
 
 function newError(error, test){
 
@@ -4953,7 +4965,7 @@ exports.run = function(test, error, ind){
 }
 
 exports.start = function(){
-  process.stdout.write('\u001B[2J\u001B[0;0f');
+//  process.stdout.write('\u001B[2J\u001B[0;0f');
 };
 
 exports.error = function(test, error){
