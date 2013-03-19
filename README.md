@@ -38,6 +38,6 @@ Visit localhost:7559 to run tests on a web browser
 Once you pass `-b` parameter, fox compiles the whole NPM package with related
 test modules and publishes a web page where you can run and see the test results.
 
-### BDD API
+# BDD API
 
 before, beforEach, describe, it, afterEach, after
