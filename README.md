@@ -38,8 +38,8 @@ $ fox -b # looks for modules like test.js or test/index.js by default.
 Visit localhost:7559 to run tests on a web browser
 ```
 
-Once you pass `-b` parameter, fox compiles the whole NPM package with related
-test modules and publishes a web page where you can run and see the test results.
+Once you pass `-b` parameter, fox [compiles the whole NPM package with related
+test modules](https://github.com/azer/fox/blob/master/lib/browser.js#L18) and [publishes](https://github.com/azer/fox/blob/master/lib/server.js#L19) [a web page](https://github.com/azer/fox/blob/master/web/index.html) where you can run and see the test results.
 
 ![](https://dl.dropbox.com/s/vxqjrcs21lkyu31/fox_browsers.png?token_hash=AAGmgetvrDsTtDSypyyWiI1jhH2rJqQkBSrghjypyj2k1Q)
 
