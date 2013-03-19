@@ -4,6 +4,11 @@ it('runs before a failing test', function(){
   before = true;
 });
 
+it('asserts false', function(done){
+  expect(true).to.be.false;
+});
+
+
 it('fails', function(){
   expect(before).to.be.true;
 
