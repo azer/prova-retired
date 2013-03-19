@@ -13,7 +13,7 @@ Create a new test document and name it `test.js`. [ChaiJS'](http://chaijs.com) `
 ```js
 describe('Number', function(){
 
-  it('convert a Date to a number', function(){
+  it('converts a date to a number', function(){
       
       expect( Number(new Date) ).to.be.a('number')
       
@@ -45,7 +45,7 @@ test modules](https://github.com/azer/fox/blob/master/lib/browser.js#L18) and [p
 
 # BDD API
 
-before, beforEach, describe, it, afterEach, after
+before, beforeEach, describe, it, afterEach, after
 
 # CLI API
 
@@ -63,3 +63,10 @@ before, beforEach, describe, it, afterEach, after
         -h    --help       Show help and exit
 ```
 
+# Migrating From Mocha
+
+Unless you have nested `describe` calls, Fox can run your Mocha tests.
+
+# Migrating From Other Frameworks
+
+Fox has the cleanest solution. Please write your new tests in BDD. 
