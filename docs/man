@@ -1,7 +1,6 @@
-
     USAGE
 
-        fox [options] [module]
+        fox [modules] [options]
 
     OPTIONS
 
