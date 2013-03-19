@@ -66,7 +66,3 @@ before, beforeEach, describe, it, afterEach, after
 # Migrating From Mocha
 
 Unless you have nested `describe` calls, Fox can run your Mocha tests.
-
-# Migrating From Other Frameworks
-
-Fox has the cleanest solution. Please write your new tests in BDD. 
