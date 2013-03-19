@@ -1,5 +1,5 @@
 fox is a new JavaScript testing framework running on NodeJS and browsers. 
-It doesn't require config or HTML files and, it comes with NO CEREMONY, 
+It doesn't require config or HTML files. it comes with NO CEREMONY, 
 just let's you write and run tests in such a simple and quick way.
 
 ```bash
