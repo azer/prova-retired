@@ -1,15 +1,17 @@
-var expect     = fox.require('chai').expect,
-    bdd        = fox().bdd,
-    suites     = fox().suites,
+var expect          = fox.require('chai').expect,
+    bdd             = fox().bdd,
+    suites          = fox().suites,
 
-    after      = bdd.after,
-    afterEach  = bdd.afterEach,
-    before     = bdd.before,
-    beforeEach = bdd.beforeEach,
-    describe   = bdd.describe,
-    it         = bdd.it;
+    cleanStackTrace = fox.require('./clean-stack-trace'),
 
-bundle.require('chai').Assertion.includeStack = true;
+    after           = bdd.after,
+    afterEach       = bdd.afterEach,
+    before          = bdd.before,
+    beforeEach      = bdd.beforeEach,
+    describe        = bdd.describe,
+    it              = bdd.it;
+
+fox.require('chai').Assertion.includeStack = true;
 
 function start(){
 
@@ -52,7 +54,7 @@ suites.onError(function(updates){
         test.title,
         '</h3>',
         '<pre>',
-        error.stack,
+        cleanStackTrace(error.stack),
         '</pre>',
         '</li>'
       ].join(''));
