@@ -1,12 +1,13 @@
-var expect     = bundle.require('chai').expect,
-    fox        = bundle.require('fox'),
+var expect     = fox.require('chai').expect,
+    bdd        = fox().bdd,
+    suites     = fox().suites,
 
-    after      = fox.bdd.after,
-    afterEach  = fox.bdd.afterEach,
-    before     = fox.bdd.before,
-    beforeEach = fox.bdd.beforeEach,
-    describe   = fox.bdd.describe,
-    it         = fox.bdd.it;
+    after      = bdd.after,
+    afterEach  = bdd.afterEach,
+    before     = bdd.before,
+    beforeEach = bdd.beforeEach,
+    describe   = bdd.describe,
+    it         = bdd.it;
 
 bundle.require('chai').Assertion.includeStack = true;
 
@@ -32,13 +33,13 @@ function start(){
 
     }
 
-    fox.suites.run();
+    suites.run();
 
   });
 
 }
 
-fox.suites.onError(function(updates){
+suites.onError(function(updates){
 
   updates.forEach(function(el){
 
@@ -60,7 +61,7 @@ fox.suites.onError(function(updates){
 
 });
 
-fox.suites.onFinish(function(result){
+suites.onFinish(function(result){
   result.passed && $('body').append('<h1>OK, passed ' + result.passed + ' tests.</h1>');
 });
 
