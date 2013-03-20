@@ -34,7 +34,7 @@ OK, passed 1 test.
 ### Run On Browsers:
 
 ```bash
-$ fox -b # looks for modules like test.js or test/index.js by default.
+$ fox test -b # looks for modules like test.js or test/index.js by default.
 Visit localhost:7559 to run tests on a web browser
 ```
 
