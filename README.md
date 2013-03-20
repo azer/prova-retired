@@ -63,6 +63,50 @@ before, beforeEach, describe, it, afterEach, after
         -h    --help       Show help and exit
 ```
 
+# JavaScript API
+
+Fox exposes an API that you can observe the testing progres... E.g; 
+
+```js
+
+describe('#Foo', function self(){
+  
+  self.testsuite.onError(function(error, test){
+    
+    console.log('%s throws %s', test.title, error)
+    
+  })
+  
+  it('will sing us a rap song', function(){
+    
+    throw new Error('fails immediately')
+    
+  })
+ 
+})
+
+```
+
+Observing errors thrown by all testsuites; 
+
+```js
+var fox = require('fox');
+
+fox.suites.onError(function(updates){
+  
+  errors.forEach(function(update){
+  
+    var error = update.params[0],
+        test = update.params[1];
+    
+    console.log('%s throws %s', test.title, error.message);
+    
+  })
+  
+});
+
+```
+
 # Migrating From Mocha
 
 Unless you have nested `describe` calls, Fox can run your Mocha tests.
