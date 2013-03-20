@@ -1,4 +1,7 @@
-var expect          = fox.require('chai').expect,
+var chai            = fox.require('chai'),
+    assert          = chai.assert,
+    expect          = chai.expect,
+
     bdd             = fox().bdd,
     suites          = fox().suites,
 
