@@ -1,5 +1,5 @@
 **fox** is a new JavaScript testing framework running on NodeJS and browsers. 
-It doesn't require config, HTML files or any such kind of ceremonies, 
+Assuming write NPM compatible code, it doesn't require any additional config, HTML files or any such kind of ceremonies, 
 just let's you write and run tests in such a simple and quick way.
 
 ```bash
