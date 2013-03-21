@@ -1,16 +1,19 @@
 #!/usr/bin/env node
 
 var opt     = require('optimist'),
+
     help    = require('../lib/help'),
     version = require('../lib/version'),
     timeout = require('../lib/timeout'),
     browser = require('../lib/browser'),
+    port    = require('../lib/server').port,
     grep    = require('../lib/grep'),
     cli     = require('../lib/cli');
 
 var argv = opt
       .options('browser', { alias: 'b' })
       .options('grep', { alias: 'g' })
+      .options('port', { alias: 'p' })
       .options('timeout', { alias: 't' })
       .options('version', { alias: 'v' })
       .options('help', { alias: 'h' })
@@ -19,6 +22,7 @@ var argv = opt
 if(argv.help) help();
 if(argv.version) version();
 
+if(argv.port) port(argv.port);
 if(argv.timeout) timeout(argv.timeout);
 if(argv.grep) grep.pattern(argv.grep);
 
