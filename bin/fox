@@ -12,6 +12,7 @@ var opt     = require('optimist'),
 
 var argv = opt
       .options('browser', { alias: 'b' })
+      .options('inc', { alias: 'i' })
       .options('grep', { alias: 'g' })
       .options('port', { alias: 'p' })
       .options('timeout', { alias: 't' })
@@ -22,6 +23,7 @@ var argv = opt
 if(argv.help) help();
 if(argv.version) version();
 
+if(argv.inc) browser.include(argv.inc);
 if(argv.port) port(argv.port);
 if(argv.timeout) timeout(argv.timeout);
 if(argv.grep) grep.pattern(argv.grep);

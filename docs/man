@@ -7,6 +7,7 @@
         -b    --browser    Publishes the tests on localhost:7559
         -p    --port       Changes the default port number. [7559]
         -g    --grep       Run tests matching with given pattern
+        -i    --inc        Include given modules to the browser build. e.g -i foo.js,bar.js
         -t    --timeout    Set test-case timeout in milliseconds [2000]
         -v    --version    Show version and exit
         -h    --help       Show help and exit
