@@ -167,317 +167,6 @@ function pkg(/* [ parentId ...], wrapper */){
 fox.pkg("fox", function(parents){
 
   return {
-    'name'         : 'ada-on',
-    'mainModuleId' : 'index',
-    'modules'      : [],
-    'parents'      : parents
-  };
-
-})({ 'index': function(module, exports, global, require, undefined){
-  module.exports = on;
-
-function on(/* pubsubs..., callback */){
-  var callback      = arguments[arguments.length - 1],
-      subscriptions = [],
-      fired         = [],
-      timer;
-
-  function newSubscriber(pubsub){
-    return function(){
-      var args  = arguments;
-
-      fired.push({ pubsub: pubsub, params: args });
-
-      if(timer){
-        clearTimeout(timer);
-        timer = undefined;
-      }
-
-      timer = setTimeout(function(){
-        callback(fired);
-        fired = [];
-      }, 0);
-    };
-  }
-
-  function add(){
-    var i = -1,
-        len = arguments.length,
-        cb;
-
-    while( ++i < len ){
-      cb = newSubscriber(arguments[i]);
-      arguments[i].subscribe(cb);
-
-      subscriptions.push({
-        pubsub: arguments[i],
-        callback: cb
-      });
-    }
-  }
-
-  function rm(pubsub){
-    var i = subscriptions.length,
-        removed = false;
-
-    while( i --> 0 ){
-      if(subscriptions[i] && subscriptions[i].pubsub == pubsub){
-        pubsub.unsubscribe(subscriptions[i].callback);
-        subscriptions[i] = undefined;
-      }
-    }
-  }
-
-  add.apply(undefined, Array.prototype.slice.call(arguments, 0, arguments.length - 1));
-
-  return {
-    subscriptions: subscriptions,
-    subscribeTo: add,
-    unsubscribeTo: rm
-  };
-}
-
-}, 
-
- });
-
-
-fox.pkg("fox", function(parents){
-
-  return {
-    'name'         : 'ada-prop',
-    'mainModuleId' : 'index',
-    'modules'      : [],
-    'parents'      : parents
-  };
-
-})({ 'index': function(module, exports, global, require, undefined){
-  module.exports = prop;
-
-/**
- * Create and return a new property.
- *
- * @param {Anything} rawValue (optional)
- * @param {Function} getter (optional)
- * @param {Function} setter (optional)
- * @return {AdaProperty}
- */
-function prop(rawValue, getter, setter){
-
-  var raw = (function(value){
-
-    return function raw(update){
-      if( arguments.length ){
-        value = update;
-      }
-
-      return value;
-    };
-
-  }());
-
-  function proxy(update, options){
-    if(arguments.length > 0){
-      raw( setter ? setter(update, raw()) : update );
-    }
-
-    return getter ? getter(raw()) : raw();
-  };
-
-  proxy.extend = function(ext){
-    raw = ext(raw);
-    return proxy;
-  }
-
-  proxy.getter = function(newGetter){
-    getter = newGetter;
-    return proxy;
-  };
-
-  proxy.setter = function(newSetter){
-    setter = newSetter;
-    return proxy;
-  };
-
-  proxy.isAdaProperty = true;
-  proxy.raw           = raw;
-
-  raw(setter ? setter(rawValue) : rawValue);
-
-  return proxy;
-}
-
-}, 
-
- });
-
-
-fox.pkg("fox", function(parents){
-
-  return {
-    'name'         : 'ada-pubsub',
-    'mainModuleId' : 'index',
-    'modules'      : [],
-    'parents'      : parents
-  };
-
-})({ 'index': function(module, exports, global, require, undefined){
-  module.exports = fog;
-
-function fog(customProxy){
-  var proxy = customProxy || function pubsubProxy(){
-    arguments.length && sub.apply(undefined, arguments);
-  };
-
-  function sub(callback){
-    subscribe(proxy, callback);
-  }
-
-  function subOnce(callback){
-    once(proxy, callback);
-  }
-
-  function unsubOnce(callback){
-    unsubscribeOnce(proxy, callback);
-  }
-
-  function unsub(callback){
-    unsubscribe(proxy, callback);
-  }
-
-  function pub(){
-    var args = [proxy];
-    Array.prototype.push.apply(args, arguments);
-    publish.apply(undefined, args);
-  }
-
-  proxy.subscribers        = [];
-  proxy.subscribersForOnce = [];
-
-  proxy.subscribe          = sub;
-  proxy.subscribe.once     = subOnce;
-  proxy.unsubscribe        = unsub;
-  proxy.unsubscribe.once   = unsubOnce;
-  proxy.publish            = pub;
-  proxy.extendsAdaPubsub   = true;
-  proxy.hasCustomProxy     = !!customProxy;
-
-  return proxy;
-}
-
-/**
- * Publish "from" by applying given args
- *
- * @param {Function} from
- * @param {...Any} args
- */
-function publish(from){
-
-  var args = Array.prototype.slice.call(arguments, 1);
-
-  if (from && from.subscribers && from.subscribers.length > 0) {
-    from.subscribers.forEach(function(cb, i){
-      if(!cb) return;
-
-      try {
-        cb.apply(undefined, args);
-      } catch(exc) {
-        setTimeout(function(){ throw exc; }, 0);
-      }
-    });
-  }
-
-  if (from && from.subscribersForOnce && from.subscribersForOnce.length > 0) {
-    from.subscribersForOnce.forEach(function(cb, i){
-      if(!cb) return;
-
-      try {
-        cb.apply(undefined, args);
-      } catch(exc) {
-        setTimeout(function(){ throw exc; }, 0);
-      }
-    });
-
-    from.subscribersForOnce = [];
-
-  }
-
-}
-
-/**
- * Subscribe callback to given pubsub object.
- *
- * @param {Pubsub} to
- * @param {Function} callback
- */
-function subscribe(to, callback){
-  if(!callback) return false;
-  return to.subscribers.push(callback);
-}
-
-
-/**
- * Subscribe callback to given pubsub object for only one publish.
- *
- * @param {Pubsub} to
- * @param {Function} callback
- */
-function once(to, callback){
-  if(!callback) return false;
-
-  return to.subscribersForOnce.push(callback);
-}
-
-/**
- * Unsubscribe callback to given pubsub object.
- *
- * @param {Pubsub} to
- * @param {Function} callback
- */
-function unsubscribe(to, callback){
-  var i = to.subscribers.length;
-
-  while(i--){
-    if(to.subscribers[i] && to.subscribers[i] == callback){
-      to.subscribers[i] = undefined;
-
-      return i;
-    }
-  }
-
-  return false;
-}
-
-
-/**
- * Unsubscribe callback subscribed for once to specified pubsub.
- *
- * @param {Pubsub} to
- * @param {Function} callback
- * @return {Boolean or Number}
- */
-function unsubscribeOnce(to, callback){
-  var i = to.subscribersForOnce.length;
-
-  while(i--){
-    if(to.subscribersForOnce[i] && to.subscribersForOnce[i] == callback){
-      to.subscribersForOnce[i] = undefined;
-
-      return i;
-    }
-  }
-
-  return false;
-}
-
-}, 
-
- });
-
-
-fox.pkg("fox", function(parents){
-
-  return {
     'name'         : 'chai',
     'mainModuleId' : 'index',
     'modules'      : [],
@@ -4543,9 +4232,11 @@ function it(title, fn){
     path   = require("path"),
     fs     = require('fs'),
     paths  = require('./paths'),
-    server = require('./server');
+    server = require('./server'),
+    toInclude;
 
 module.exports = browser;
+module.exports.include = include;
 
 function browser(args){
 
@@ -4553,19 +4244,20 @@ function browser(args){
 
     if(error) throw error;
 
-    var target = findManifest(paths),
-        bundle = '/tmp/fox-bundle' + Math.floor(Math.random()*9999) + '.js';
+    var target = findManifest(paths);
 
     one(target)
       .include.apply(undefined, paths)
+      .include.apply(undefined, toInclude)
       .exclude('fox', 'cli-color', 'express', 'glob', 'require-like', 'one', 'optimist', 'glob', 'browserify', 'mocha', 'commander', 'colors', 'uglify-js', 'mkdirp', 'request', 'coffee-script', 'connect', 'jade', 'redis', 'debug', 'mime', 'node-uuid', 'less', 'stylus', 'jsdom', 'mongodb', 'mongoose', 'rimraf', 'vows', 'requirejs', 'npm', 'jshint', 'node-static', 'shelljs', 'nodeunit', 'tar', 'pg')
       .devDependencies()
-      .debug()
       .name('bundle')
       .quiet()
-      .save(bundle);
+      .save(function(error, bundle){
+        if(error) throw error;
 
-    server(bundle, paths);
+        server(bundle, paths);
+      });
 
   });
 
@@ -4587,6 +4279,10 @@ function findManifest(paths){
   });
 
   return manifest;
+}
+
+function include(files){
+  toInclude = files.split(',');
 }
 
 }, 
@@ -4965,7 +4661,7 @@ exports.run = function(test, error, ind){
 }
 
 exports.start = function(){
-//  process.stdout.write('\u001B[2J\u001B[0;0f');
+  process.stdout.write('\u001B[2J\u001B[0;0f');
 };
 
 exports.error = function(test, error){
@@ -5017,25 +4713,30 @@ exports.end = function(result){
   var express = require("express"),
     path    = require('path'),
     fs      = require("fs"),
-    app     = express();
+    prop    = require('ada-prop'),
+    app     = express(),
+
+    port    = prop(7559);
 
 app.use(express.logger());
 app.use(express.static(path.join(__dirname, '../web')));
 
-module.exports = function(bundle, paths){
+module.exports = server;
+module.exports.port = port;
+
+function server(bundle, paths){
 
   app.get('/bundle.js', function(req, res){
-    res.send(fs.readFileSync(bundle));
+    res.send(bundle);
   });
 
   app.get('/modules', function(req, res){
     res.send(JSON.stringify(paths));
   });
 
-  app.listen(7559);
+  app.listen(port());
 
-  console.log('Visit localhost:7559 to run tests on a web browser');
-
+  console.log('Visit localhost:%d to run tests on a web browser', port());
 };
 
 }, 
@@ -5043,8 +4744,8 @@ module.exports = function(bundle, paths){
 
 
 'lib/suites': function(module, exports, global, require, undefined){
-  var on                = require('ada-on'),
-    pubsub            = require('ada-pubsub'),
+  var subscribe         = require('subscribe'),
+    pubsub            = require('new-pubsub'),
 
     globals           = require("./globals"),
 
@@ -5054,8 +4755,8 @@ module.exports = function(bundle, paths){
     onFinish          = pubsub(),
     onRun             = pubsub(),
 
-    onErrorController = on(onError.publish),
-    onRunController   = on(onRun.publish),
+    onErrorController = subscribe(onError.publish),
+    onRunController   = subscribe(onRun.publish),
 
     passed            = true,
     count             = 0;
@@ -5072,8 +4773,8 @@ module.exports = {
 function add(suite){
   suites.push(suite);
 
-  onErrorController.subscribeTo(suite.onError);
-  onRunController.subscribeTo(suite.onRun);
+  onErrorController.add(suite.onError);
+  onRunController.add(suite.onRun);
 }
 
 function iter(i){
@@ -5354,6 +5055,399 @@ function objectKeys(obj){
 
 function isArray(obj){
   return Object.prototype.toString.call(obj) == '[object Array]';
+}
+
+}, 
+
+ });
+
+
+fox.pkg("fox", function(parents){
+
+  return {
+    'name'         : 'new-prop',
+    'mainModuleId' : 'index',
+    'modules'      : [],
+    'parents'      : parents
+  };
+
+})({ 'index': function(module, exports, global, require, undefined){
+  module.exports = prop;
+
+/**
+ * Create and return a new property.
+ *
+ * @param {Anything} rawValue (optional)
+ * @param {Function} getter (optional)
+ * @param {Function} setter (optional)
+ * @return {AdaProperty}
+ */
+function prop(rawValue, getter, setter){
+
+  var raw = (function(value){
+
+    return function raw(update){
+      if( arguments.length ){
+        value = update;
+      }
+
+      return value;
+    };
+
+  }());
+
+  function proxy(update, options){
+    if(arguments.length > 0){
+      raw( setter ? setter(update, raw()) : update );
+    }
+
+    return getter ? getter(raw()) : raw();
+  };
+
+  proxy.extend = function(ext){
+    raw = ext(raw);
+    return proxy;
+  }
+
+  proxy.getter = function(newGetter){
+    getter = newGetter;
+    return proxy;
+  };
+
+  proxy.setter = function(newSetter){
+    setter = newSetter;
+    return proxy;
+  };
+
+  proxy.isAdaProperty = true;
+  proxy.raw           = raw;
+
+  raw(setter ? setter(rawValue) : rawValue);
+
+  return proxy;
+}
+
+}, 
+
+ });
+
+
+fox.pkg("fox", function(parents){
+
+  return {
+    'name'         : 'new-pubsub',
+    'mainModuleId' : 'index',
+    'modules'      : [],
+    'parents'      : parents
+  };
+
+})({ 'index': function(module, exports, global, require, undefined){
+  module.exports = PubSub;
+
+function PubSub(mix){
+
+  var proxy = mix || function pubsubProxy(){
+    arguments.length && sub.apply(undefined, arguments);
+  };
+
+  function sub(callback){
+    subscribe(proxy, callback);
+  }
+
+  function subOnce(callback){
+    once(proxy, callback);
+  }
+
+  function unsubOnce(callback){
+    unsubscribeOnce(proxy, callback);
+  }
+
+  function unsub(callback){
+    unsubscribe(proxy, callback);
+  }
+
+  function pub(){
+    var args = [proxy];
+    Array.prototype.push.apply(args, arguments);
+    publish.apply(undefined, args);
+  }
+
+  proxy.subscribers        = [];
+  proxy.subscribersForOnce = [];
+
+  proxy.subscribe          = sub;
+  proxy.subscribe.once     = subOnce;
+  proxy.unsubscribe        = unsub;
+  proxy.unsubscribe.once   = unsubOnce;
+  proxy.publish            = pub;
+
+  return proxy;
+}
+
+/**
+ * Publish "from" by applying given args
+ *
+ * @param {Function} from
+ * @param {...Any} args
+ */
+function publish(from){
+
+  var args = Array.prototype.slice.call(arguments, 1);
+
+  if (from && from.subscribers && from.subscribers.length > 0) {
+    from.subscribers.forEach(function(cb, i){
+      if(!cb) return;
+
+      try {
+        cb.apply(undefined, args);
+      } catch(exc) {
+        setTimeout(function(){ throw exc; }, 0);
+      }
+    });
+  }
+
+  if (from && from.subscribersForOnce && from.subscribersForOnce.length > 0) {
+    from.subscribersForOnce.forEach(function(cb, i){
+      if(!cb) return;
+
+      try {
+        cb.apply(undefined, args);
+      } catch(exc) {
+        setTimeout(function(){ throw exc; }, 0);
+      }
+    });
+
+    from.subscribersForOnce = [];
+
+  }
+
+}
+
+/**
+ * Subscribe callback to given pubsub object.
+ *
+ * @param {Pubsub} to
+ * @param {Function} callback
+ */
+function subscribe(to, callback){
+  if(!callback) return false;
+  return to.subscribers.push(callback);
+}
+
+
+/**
+ * Subscribe callback to given pubsub object for only one publish.
+ *
+ * @param {Pubsub} to
+ * @param {Function} callback
+ */
+function once(to, callback){
+  if(!callback) return false;
+
+  return to.subscribersForOnce.push(callback);
+}
+
+/**
+ * Unsubscribe callback to given pubsub object.
+ *
+ * @param {Pubsub} to
+ * @param {Function} callback
+ */
+function unsubscribe(to, callback){
+  var i = to.subscribers.length;
+
+  while(i--){
+    if(to.subscribers[i] && to.subscribers[i] == callback){
+      to.subscribers[i] = undefined;
+
+      return i;
+    }
+  }
+
+  return false;
+}
+
+
+/**
+ * Unsubscribe callback subscribed for once to specified pubsub.
+ *
+ * @param {Pubsub} to
+ * @param {Function} callback
+ * @return {Boolean or Number}
+ */
+function unsubscribeOnce(to, callback){
+  var i = to.subscribersForOnce.length;
+
+  while(i--){
+    if(to.subscribersForOnce[i] && to.subscribersForOnce[i] == callback){
+      to.subscribersForOnce[i] = undefined;
+
+      return i;
+    }
+  }
+
+  return false;
+}
+
+}, 
+
+ });
+
+
+fox.pkg("fox", function(parents){
+
+  return {
+    'name'         : 'subscribe',
+    'mainModuleId' : 'index',
+    'modules'      : [],
+    'parents'      : parents
+  };
+
+})({ 'index': function(module, exports, global, require, undefined){
+  var subscribe = require("./lib/subscribe"),
+    once      = require('./lib/once');
+
+module.exports = subscribe;
+module.exports.once = once;
+
+}, 
+
+
+
+'lib/once': function(module, exports, global, require, undefined){
+  module.exports = once;
+
+function once(){
+  var pubsubs       = Array.prototype.slice.call(arguments, 0, arguments.length - 1),
+      subscriptions = [],
+      callback      = arguments[arguments.length - 1],
+      counter       = 0,
+      self          = {
+        add    : add,
+        remove : rm,
+        list   : subscriptions
+      };
+
+  add.apply(undefined, Array.prototype.slice.call(arguments, 0, arguments.length - 1));
+
+  return self;
+
+  function add(){
+    var i   = -1,
+        len = arguments.length, cb;
+
+    while( ++i < len ){
+      cb = proxy(arguments[i]);
+      arguments[i].subscribe.once(cb);
+
+      subscriptions.push({
+        pubsub: arguments[i],
+        callback: cb
+      });
+    }
+
+  }
+
+  function rm(pubsub){
+    var i = subscriptions.length,
+        removed = false;
+
+    while( i --> 0 ){
+      if(subscriptions[i] && subscriptions[i].pubsub == pubsub){
+        pubsub.unsubscribe.once(subscriptions[i].callback);
+        subscriptions[i] = undefined;
+        counter++;
+        removed = true;
+      }
+    }
+
+    return removed;
+  }
+
+  function proxy(pubsub){
+    return function(){
+
+      if(!rm(pubsub)){
+        return;
+      }
+
+      if(counter >= subscriptions.length){
+        subscriptions = undefined;
+        self.done = true;
+        callback();
+      }
+
+    };
+  }
+}
+
+}, 
+
+
+
+'lib/subscribe': function(module, exports, global, require, undefined){
+  module.exports = subscribe;
+
+function subscribe(/* pubsubs..., callback */){
+  var callback      = arguments[arguments.length - 1],
+      subscriptions = [],
+      fired         = [],
+      timer;
+
+  add.apply(undefined, Array.prototype.slice.call(arguments, 0, arguments.length - 1));
+
+  return {
+    list: subscriptions,
+    add: add,
+    remove: rm
+  };
+
+  function newSubscriber(pubsub){
+    return function(){
+      var args  = arguments;
+
+      fired.push({ pubsub: pubsub, params: args });
+
+      if(timer){
+        clearTimeout(timer);
+        timer = undefined;
+      }
+
+      timer = setTimeout(function(){
+        callback(fired);
+        fired = [];
+      }, 0);
+    };
+  }
+
+  function add(){
+    var i = -1,
+        len = arguments.length,
+        cb;
+
+    while( ++i < len ){
+      cb = newSubscriber(arguments[i]);
+      arguments[i].subscribe(cb);
+
+      subscriptions.push({
+        pubsub: arguments[i],
+        callback: cb
+      });
+    }
+  }
+
+  function rm(pubsub){
+    var i = subscriptions.length,
+        removed = false;
+
+    while( i --> 0 ){
+      if(subscriptions[i] && subscriptions[i].pubsub == pubsub){
+        pubsub.unsubscribe(subscriptions[i].callback);
+        subscriptions[i] = undefined;
+      }
+    }
+  }
+
 }
 
 }, 

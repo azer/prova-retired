@@ -10,9 +10,9 @@
     "test": "fox"
   },
   "dependencies": {
-    "ada-pubsub": "*",
-    "ada-on": "*",
-    "ada-prop": "*",
+    "new-pubsub": "*",
+    "subscribe": "*",
+    "new-prop": "*",
     "optimist": "0.x",
     "chai": "1.x",
     "cli-color": "0.x",
