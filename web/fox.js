@@ -4713,7 +4713,7 @@ exports.end = function(result){
   var express = require("express"),
     path    = require('path'),
     fs      = require("fs"),
-    prop    = require('ada-prop'),
+    prop    = require('new-prop'),
     app     = express(),
 
     port    = prop(7559);
@@ -4806,7 +4806,7 @@ function run(){
 
 
 'lib/testsuite': function(module, exports, global, require, undefined){
-  var pubsub  = require('ada-pubsub'),
+  var pubsub  = require('new-pubsub'),
     globals = require('./globals'),
     suites  = require('./suites'),
     grep    = require('./grep'),
@@ -4979,7 +4979,7 @@ TestSuite.prototype.runAll = function(callback, undefined){
 
 
 'lib/timeout': function(module, exports, global, require, undefined){
-  var prop = require('ada-prop');
+  var prop = require('new-prop');
 
 module.exports = prop(2000);
 

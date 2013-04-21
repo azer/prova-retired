@@ -16,7 +16,7 @@
     "optimist": "0.x",
     "chai": "1.x",
     "cli-color": "0.x",
-    "one": "2.x",
+    "one": "2.0.x",
     "glob": "3.x",
     "map": "*",
     "require-like": "0.x",
