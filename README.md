@@ -43,11 +43,8 @@ test modules](https://github.com/azer/fox/blob/master/lib/browser.js#L18) and [p
 
 ![](https://dl.dropbox.com/s/vxqjrcs21lkyu31/fox_browsers.png?token_hash=AAGmgetvrDsTtDSypyyWiI1jhH2rJqQkBSrghjypyj2k1Q)
 
-# BDD API
 
-before, beforeEach, describe, it, afterEach, after
-
-# CLI API
+# CLI
 
 ```
     USAGE
@@ -62,6 +59,11 @@ before, beforeEach, describe, it, afterEach, after
         -v    --version    Show version and exit
         -h    --help       Show help and exit
 ```
+
+# BDD API
+
+before, beforeEach, describe, it, afterEach, after
+
 
 # JavaScript API
 
