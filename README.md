@@ -22,7 +22,7 @@ describe('Number', function(){
 })
 ```
 
-### Run On NodeJS:
+### NodeJS:
 
 ```bash
 $ fox test # Globbing and multiple parameters are enabled.
@@ -31,7 +31,7 @@ OK, passed 1 test.
 
 ![](https://dl.dropbox.com/s/agkrqwdrw3jlfhs/fox_cli.png?token_hash=AAET5mc15WE-bx9WlW0CLmZwk4N0K0qgcT9PMh72NX_KCA)
 
-### Run On Browsers:
+### Browsers:
 
 ```bash
 $ fox test -b # looks for modules like test.js or test/index.js by default.
