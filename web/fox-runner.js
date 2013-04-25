@@ -1,11 +1,10 @@
-var chai            = fox.require('chai'),
+var chai            = fox.chai,
     assert          = chai.assert,
     expect          = chai.expect,
 
-    bdd             = fox().bdd,
-    suites          = fox().suites,
-
-    cleanStackTrace = fox.require('./clean-stack-trace'),
+    bdd             = fox.bdd,
+    suites          = fox.suites,
+    cleanStackTrace = fox.cleanStackTrace,
 
     after           = bdd.after,
     afterEach       = bdd.afterEach,
@@ -14,34 +13,13 @@ var chai            = fox.require('chai'),
     describe        = bdd.describe,
     it              = bdd.it;
 
-fox.require('chai').Assertion.includeStack = true;
+chai.Assertion.includeStack = true;
 
 function start(){
-
   $.getJSON('/modules', function(modulePaths) {
-
-    try {
-
-      modulePaths
-        .map(function(el){
-          return !/^\./.test(el) ? './' + el : el;
-        })
-        .map(bundle.require);
-
-    } catch(requireError){
-
-      modulePaths
-        .map(function(el){
-          return '../' + el;
-        })
-        .map(bundle.require);
-
-    }
-
+    modulePaths.forEach(require);
     suites.run();
-
   });
-
 }
 
 suites.onError(function(updates){

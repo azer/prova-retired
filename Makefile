@@ -1,2 +1,2 @@
 all:
-	@./node_modules/.bin/onejs build package.json web/fox.js --exclude express,glob,optimist,require-like,cli-color
+	@./node_modules/.bin/onejs web.js -o web/fox.js
