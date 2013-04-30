@@ -1,14 +1,14 @@
 **fox** is a new JavaScript testing framework running on NodeJS and browsers. 
-Assuming write NPM compatible code, it doesn't require any additional config, HTML files or any such kind of ceremonies, 
-just let's you write and run tests in such a simple and quick way.
+It doesn't require writing configuration, writing HTML files or any other ceremonies. 
+It just let's you write and run tests in a very simple and quick way.
 
 ```bash
 $ npm install -g fox
 ```
 
-# USAGE
+## Writing Tests
 
-Create a new test document and name it `test.js`. [ChaiJS'](http://chaijs.com) `expect` and `assert` modules are injected by default;
+Create a new test document and name it `test.js`. [ChaiJS'](http://chaijs.com) `expect` and `assert` modules are injected to the test modules by default;
 
 ```js
 describe('Number', function(){
@@ -22,7 +22,16 @@ describe('Number', function(){
 })
 ```
 
-### NodeJS:
+Available BDD methods:
+
+* before
+* beforeEach
+* describe
+* it
+* afterEach
+* after
+
+## Running on Node
 
 ```bash
 $ fox test # Globbing and multiple parameters are enabled.
@@ -31,20 +40,19 @@ OK, passed 1 test.
 
 ![](https://dl.dropbox.com/s/agkrqwdrw3jlfhs/fox_cli.png?token_hash=AAET5mc15WE-bx9WlW0CLmZwk4N0K0qgcT9PMh72NX_KCA)
 
-### Browsers:
+## Running On Browsers
 
 ```bash
-$ fox test -b # looks for modules like test.js or test/index.js by default.
+$ fox test -b
 Visit localhost:7559 to run tests on a web browser
 ```
 
-Once you pass `-b` parameter, fox [compiles the whole NPM package with related
-test modules](https://github.com/azer/fox/blob/master/lib/browser.js#L18) and [publishes](https://github.com/azer/fox/blob/master/lib/server.js#L19) [a web page](https://github.com/azer/fox/blob/master/web/index.html) where you can run and see the test results.
+Once you pass `-b` parameter, fox [compiles your source code for browsers](https://github.com/azer/fox/blob/master/lib/browser.js#L18) and [publishes](https://github.com/azer/fox/blob/master/lib/server.js#L19) [a web page](https://github.com/azer/fox/blob/master/web/index.html) where you can run and see the test results.
 
 ![](https://dl.dropbox.com/s/vxqjrcs21lkyu31/fox_browsers.png?token_hash=AAGmgetvrDsTtDSypyyWiI1jhH2rJqQkBSrghjypyj2k1Q)
 
 
-# CLI
+## Command-Line
 
 ```
     USAGE
@@ -60,29 +68,20 @@ test modules](https://github.com/azer/fox/blob/master/lib/browser.js#L18) and [p
         -h    --help       Show help and exit
 ```
 
-# BDD API
-
-before, beforeEach, describe, it, afterEach, after
 
 
-# JavaScript API
-
-Fox exposes an API that you can observe the testing progres... E.g; 
+## JavaScript API
 
 ```js
 
 describe('#Foo', function self(){
   
   self.testsuite.onError(function(error, test){
-    
     console.log('%s throws %s', test.title, error)
-    
   })
   
   it('will sing us a rap song', function(){
-    
     throw new Error('fails immediately')
-    
   })
  
 })
@@ -97,12 +96,10 @@ var fox = require('fox');
 fox.suites.onError(function(updates){
   
   errors.forEach(function(update){
-  
     var error = update.params[0],
         test = update.params[1];
     
     console.log('%s throws %s', test.title, error.message);
-    
   })
   
 });
