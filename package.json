@@ -7,7 +7,7 @@
     "fox": "./bin/fox"
   },
   "scripts": {
-    "test": "fox"
+    "test": "./bin/fox"
   },
   "dependencies": {
     "new-pubsub": "*",
