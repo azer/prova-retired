@@ -1,4 +1,6 @@
-**fox** is a new JavaScript testing framework running on NodeJS and browsers. 
+## Fox [![Build Status](https://travis-ci.org/azer/fox.png)](https://travis-ci.org/azer/fox)
+
+A new pragmatic JavaScript testing framework running on NodeJS and browsers. 
 It doesn't require writing configuration, writing HTML files or any other ceremonies. 
 It just let's you write and run tests in a very simple and quick way.
 
