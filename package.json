@@ -15,12 +15,12 @@
     "new-prop": "*",
     "optimist": "0.x",
     "chai": "1.x",
-    "cli-color": "0.x",
     "one": "3.x",
     "glob": "3.x",
     "map": "*",
     "require-like": "0.x",
-    "express": "3.x"
+    "express": "3.x",
+    "styled": "0.0.1"
   },
   "repository": {
     "url": "git@github.com:azer/fox.git",
