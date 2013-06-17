@@ -14,13 +14,9 @@ Create a new test document and name it `test.js`. [ChaiJS'](http://chaijs.com) `
 
 ```js
 describe('Number', function(){
-
-  it('converts a date to a number', function(){
-      
+  it('converts a date to a number', function(){    
       expect( Number(new Date) ).to.be.a('number')
-      
   })
-
 })
 ```
 
