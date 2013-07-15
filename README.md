@@ -1,14 +1,12 @@
 ## Fox [![Build Status](https://travis-ci.org/azer/fox.png)](https://travis-ci.org/azer/fox)
 
-A new pragmatic JavaScript testing framework running on NodeJS and browsers. 
-It doesn't require writing configuration, writing HTML files or any other ceremonies. 
-It just let's you write and run tests in a very simple and quick way.
+A new pragmatic JavaScript testing framework fpr both NodeJS and browsers.
 
 ```bash
 $ npm install -g fox
 ```
 
-## Writing Tests
+## First Steps
 
 Create a new test document and name it `test.js`. [ChaiJS'](http://chaijs.com) `expect` and `assert` modules are injected to the test modules by default;
 
@@ -52,7 +50,7 @@ Once you pass `-b` parameter, fox [compiles your source code for browsers](https
 If you have PhantomJS installed in your system, run fox with `-bv` parameters to run the tests headlessly;
 
 ```bash
-$ fox test -vb
+$ fox -bv
 ```
 
 ![](https://dl.dropboxusercontent.com/s/xji3v0p4yonssgy/fox-bv.png)
