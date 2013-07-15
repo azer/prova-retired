@@ -36,7 +36,7 @@ $ fox test # Globbing and multiple parameters are enabled.
 OK, passed 1 test.
 ```
 
-![](https://dl.dropbox.com/s/agkrqwdrw3jlfhs/fox_cli.png?token_hash=AAET5mc15WE-bx9WlW0CLmZwk4N0K0qgcT9PMh72NX_KCA)
+![](https://dl.dropbox.com/s/agkrqwdrw3jlfhs/fox_cli.png)
 
 ## Running On Browsers
 
@@ -47,8 +47,15 @@ Visit localhost:7559 to run tests on a web browser
 
 Once you pass `-b` parameter, fox [compiles your source code for browsers](https://github.com/azer/fox/blob/master/lib/browser.js#L18) and [publishes](https://github.com/azer/fox/blob/master/lib/server.js#L19) [a web page](https://github.com/azer/fox/blob/master/web/index.html) where you can run and see the test results.
 
-![](https://dl.dropbox.com/s/vxqjrcs21lkyu31/fox_browsers.png?token_hash=AAGmgetvrDsTtDSypyyWiI1jhH2rJqQkBSrghjypyj2k1Q)
+### Headless Testing
 
+If you have PhantomJS installed in your system, run fox with `-bv` parameters to run the tests headlessly;
+
+```bash
+$ fox test -vb
+```
+
+![](https://dl.dropboxusercontent.com/s/xji3v0p4yonssgy/fox-bv.png)
 
 ## Command-Line
 
