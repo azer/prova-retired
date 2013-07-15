@@ -25,6 +25,8 @@ suites.onError(function(updates){
         test  = el.params[1],
         stack = cleanStackTrace(error.stack).split('\n');
 
+    message('o', '==>' + navigator.userAgent + '\n' + error.stack);
+
       $("#result").append([
         '<li>',
         '<h3>',
@@ -55,7 +57,7 @@ suites.onFinish(function(result){
 
 });
 
-$(document).ready(start);
+start();
 
 function message(type, content){
   var msg = {

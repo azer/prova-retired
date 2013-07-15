@@ -19,12 +19,14 @@ var argv = opt
       .argv;
 
 if(argv.help) require('show-help');
-if(argv.version) require('show-version');
+if(argv.version && !argv.browser) require('show-version');
 
 if(argv.inc) browser.include(argv.inc);
 if(argv.port) port(argv.port);
 if(argv.timeout) timeout(argv.timeout);
 if(argv.grep) grep.pattern(argv.grep);
+
+if(argv.browser && argv.version) argv.visit = true;
 if(argv.visit) argv.browser = true;
 
 ( argv.browser ? browser : cli )(argv);
