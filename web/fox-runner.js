@@ -11,23 +11,19 @@ var chai            = fox.chai,
     before          = bdd.before,
     beforeEach      = bdd.beforeEach,
     describe        = bdd.describe,
-    it              = bdd.it;
+    it              = bdd.it,
+
+    errors          = [];
 
 chai.Assertion.includeStack = true;
-
-function start(){
-  $.getJSON('/modules', function(modulePaths) {
-    modulePaths.forEach(require);
-    suites.run();
-  });
-}
 
 suites.onError(function(updates){
 
   updates.forEach(function(el){
 
     var error = el.params[0],
-        test  = el.params[1];
+        test  = el.params[1],
+        stack = cleanStackTrace(error.stack).split('\n');
 
       $("#result").append([
         '<li>',
@@ -35,17 +31,46 @@ suites.onError(function(updates){
         test.title,
         '</h3>',
         '<pre>',
-        cleanStackTrace(error.stack),
+        stack,
         '</pre>',
         '</li>'
       ].join(''));
+
+    message('error', {
+      test: test.title,
+      error: stack.slice(0, 1)[0],
+      stack: stack.slice(1).join('\n')
+    });
 
   });
 
 });
 
 suites.onFinish(function(result){
-  result.passed && $('body').append('<h1>OK, passed ' + result.passed + ' tests.</h1>');
+
+  if ( !result.passed ) return;
+
+  message('passed', result.passed);
+  $('body').append('<h1>OK, passed ' + result.passed + ' tests.</h1>');
+
 });
 
 $(document).ready(start);
+
+function message(type, content){
+  var msg = {
+    content: content
+  };
+
+  msg[type] = true;
+
+  $.post('/message', msg, function(){}, 'json');
+}
+
+function start(){
+  $.getJSON('/modules', function(modulePaths) {
+    message('start', 'Running tests on ' + navigator.userAgent);
+    modulePaths.forEach(require);
+    suites.run();
+  });
+}

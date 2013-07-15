@@ -12,7 +12,7 @@ beforeEach(function(){
   globalBeforeEach++;
 });
 
-describe('#TestSuite', function(){
+describe('TestSuite', function(){
 
   var localBefore     = 0,
       localBeforeEach = 0,
@@ -33,6 +33,7 @@ describe('#TestSuite', function(){
 
   it('runs all tests in order', function(){
     expect(localCounter).to.equal(0);
+    expect(false).to.be.true;
     localCounter++;
   });
 

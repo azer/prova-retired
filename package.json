@@ -1,6 +1,6 @@
 {
   "name": "fox",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "The testing tool I like.",
   "main": "lib/index.js",
   "bin": {
@@ -12,7 +12,6 @@
   "dependencies": {
     "new-pubsub": "*",
     "subscribe": "*",
-    "new-prop": "*",
     "optimist": "0.x",
     "chai": "1.x",
     "one": "3.x",
@@ -20,7 +19,12 @@
     "map": "*",
     "require-like": "0.x",
     "express": "3.x",
-    "styled": "0.0.1"
+    "styled": "0.0.1",
+    "show-help": "0.0.0",
+    "show-version": "0.0.0",
+    "attr": "0.0.1",
+    "ua-parser-js": "~0.6.2",
+    "phantom": "~0.5.1"
   },
   "repository": {
     "url": "git@github.com:azer/fox.git",
