@@ -45,7 +45,7 @@ Visit localhost:7559 to run tests on a web browser
 
 Once you pass `-b` parameter, fox [compiles your source code for browsers](https://github.com/azer/fox/blob/master/lib/browser.js#L18) and [publishes](https://github.com/azer/fox/blob/master/lib/server.js#L19) [a web page](https://github.com/azer/fox/blob/master/web/index.html) where you can run and see the test results.
 
-### Headless Testing
+## Headless Testing
 
 If you have PhantomJS installed in your system, run fox with `-bv` parameters to run the tests headlessly;
 
