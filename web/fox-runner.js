@@ -25,8 +25,6 @@ suites.onError(function(updates){
         test  = el.params[1],
         stack = cleanStackTrace(error.stack).split('\n');
 
-    message('o', '==>' + navigator.userAgent + '\n' + error.stack);
-
       $("#result").append([
         '<li>',
         '<h3>',
@@ -71,7 +69,7 @@ function message(type, content){
 
 function start(){
   $.getJSON('/modules', function(modulePaths) {
-    message('start', 'Running tests on ' + navigator.userAgent);
+    message('start', navigator.userAgent);
     modulePaths.forEach(require);
     suites.run();
   });

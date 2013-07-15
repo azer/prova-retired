@@ -33,7 +33,6 @@ describe('TestSuite', function(){
 
   it('runs all tests in order', function(){
     expect(localCounter).to.equal(0);
-    expect(false).to.be.true;
     localCounter++;
   });
 

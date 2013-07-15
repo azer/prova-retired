@@ -23,7 +23,6 @@
     "show-help": "0.0.0",
     "show-version": "0.0.0",
     "attr": "0.0.1",
-    "ua-parser-js": "~0.6.2",
     "phantom": "~0.5.1"
   },
   "repository": {
