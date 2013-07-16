@@ -39,7 +39,7 @@ OK, passed 1 test.
 ## Running On Browsers
 
 ```bash
-$ fox test -b
+$ fox -b
 Visit localhost:7559 to run tests on a web browser
 ```
 
