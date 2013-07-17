@@ -30,7 +30,7 @@ Available BDD methods:
 ## Running on Node
 
 ```bash
-$ fox test # Globbing and multiple parameters are enabled.
+$ fox # It'll look modules like test.js and test/index by default. You can specify them manually; fox test_foo.js test_b*.js
 OK, passed 1 test.
 ```
 
