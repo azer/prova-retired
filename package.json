@@ -25,6 +25,9 @@
     "attr": "0.0.1",
     "phantom": "~0.5.1"
   },
+  "devDependencies": {
+    "indev": "0.x"
+  },
   "repository": {
     "url": "git@github.com:azer/fox.git",
     "type": "git"

@@ -1,0 +1,4 @@
+onejs = bin "one/onejs"
+
+task 'all', 'lib', 'web.js', ->
+  onejs 'web.js -o web/fox.js'
