@@ -17,34 +17,7 @@ var chai            = fox.chai,
 
 chai.Assertion.includeStack = true;
 
-suites.onError(function(updates){
-
-  updates.forEach(function(el){
-
-    var error = el.params[0],
-        test  = el.params[1],
-        stack = cleanStackTrace(error.stack).split('\n');
-
-      $("#result").append([
-        '<li>',
-        '<h3>',
-        test.title,
-        '</h3>',
-        '<pre>',
-        stack,
-        '</pre>',
-        '</li>'
-      ].join(''));
-
-    message('error', {
-      test: test.title,
-      error: stack.slice(0, 1)[0],
-      stack: stack.slice(1).join('\n')
-    });
-
-  });
-
-});
+suites.onError(onError);
 
 suites.onFinish(function(result){
 

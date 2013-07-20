@@ -23,9 +23,12 @@
     "show-help": "0.0.0",
     "show-version": "0.0.0",
     "attr": "0.0.1",
-    "phantom": "~0.5.1"
+    "phantom": "~0.5.1",
+    "engine.io": "~0.5.0",
+    "engine.io-client": "~0.5.0"
   },
   "devDependencies": {
+    "domquery":"0.x",
     "indev": "0.x"
   },
   "repository": {
