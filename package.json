@@ -24,10 +24,11 @@
     "show-version": "0.0.0",
     "attr": "0.0.1",
     "phantom": "~0.5.1",
-    "simple.io": "*"
+    "simple.io": "*",
+    "uniques": "0.0.0"
   },
   "devDependencies": {
-    "domquery":"0.x",
+    "domquery": "0.0.11",
     "indev": "0.x"
   },
   "repository": {
