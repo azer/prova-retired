@@ -1,7 +1,7 @@
 {
   "name": "fox",
   "version": "1.0.1",
-  "description": "The testing tool I like.",
+  "description": "Pragmatic Testing Framework For NodeJS and Browsers.",
   "main": "lib/index.js",
   "bin": {
     "fox": "./bin/fox"
@@ -10,7 +10,7 @@
     "test": "./bin/fox"
   },
   "dependencies": {
-    "new-pubsub": "*",
+    "pubsub": "*",
     "subscribe": "*",
     "optimist": "0.x",
     "chai": "1.x",
@@ -24,8 +24,7 @@
     "show-version": "0.0.0",
     "attr": "0.0.1",
     "phantom": "~0.5.1",
-    "engine.io": "~0.5.0",
-    "engine.io-client": "~0.5.0"
+    "simple.io": "*"
   },
   "devDependencies": {
     "domquery":"0.x",

@@ -1,8 +1,9 @@
 onejs = bin "one/onejs"
-fox = bin 'fox'
+fox = cmd './bin/fox'
 
 all 'test'
 
-task 'test', 'lib', '*.js', ->
-  onejs 'web.js -o web/build.js'
-  exec 'fox -b'
+task 'test', 'test', 'web/app', 'lib', '*.js', ->
+  onejs 'web/app/globals.js -o web/dist/globals.js'
+  onejs 'web/app/index.js -o web/dist/fox.js'
+  fox 'test/index.js -b'
