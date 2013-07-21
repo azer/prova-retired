@@ -14,3 +14,6 @@ window.before     = bdd.before;
 window.beforeEach = bdd.beforeEach;
 window.describe   = bdd.describe;
 window.it         = bdd.it;
+
+suites.onError(window.parent.onFrameError.publish);
+suites.onFinish(window.parent.onFrameFinish.publish);

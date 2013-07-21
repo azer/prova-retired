@@ -1,8 +1,11 @@
-var io              = require("simple.io")(),
+ var io             = require("simple.io")(),
     pubsub          = require('pubsub'),
     cleanStackTrace = require('../../lib/clean-stack-trace'),
+    frame           = require('./frame'),
     onError         = pubsub(),
     onFinish        = pubsub();
+
+setTimeout(frame.run, 0);
 
 module.exports = {
   onError: onError,
@@ -16,7 +19,7 @@ window.onerror = function(error){
   });
 };
 
-suites.onError(function(updates){
+frame.onError(function(updates){
   updates.forEach(function(el){
     var error = el.params[0],
         test  = el.params[1],
@@ -30,11 +33,9 @@ suites.onError(function(updates){
   });
 });
 
-suites.onFinish(function(result){
+frame.onFinish(function(result){
   if ( !result.passed ) return;
 
   io.publish({ finish: true, passed: result.passed });
   onFinish.publish(result.passed);
 });
-
-setTimeout(suites.run, 0);

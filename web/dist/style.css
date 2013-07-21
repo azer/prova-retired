@@ -8,3 +8,5 @@ h3 { color: #aa3300 }
 #result li { padding: 10px; background: #f2f2f2; margin-bottom: 2px; }
 #result li strong {  }
 #result li pre { font:12px Arial, sans-serif; color: #666; padding: 0 15px; line-height: 18px; }
+
+iframe { position: absolute; top: -999px; }

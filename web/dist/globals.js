@@ -14,6 +14,9 @@ window.before     = bdd.before;
 window.beforeEach = bdd.beforeEach;
 window.describe   = bdd.describe;
 window.it         = bdd.it;
+
+suites.onError(window.parent.onFrameError.publish);
+suites.onFinish(window.parent.onFrameFinish.publish);
  },{"../../lib/suites":1,"../../lib/bdd":7,"chai":14}],1:[function(require,module,exports){ var subscribe         = require('subscribe'),
     pubsub            = require('pubsub'),
 

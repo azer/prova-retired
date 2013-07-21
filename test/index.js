@@ -86,6 +86,10 @@ it('calls global beforeEach and afterEach for tests on top scope', function(){
   expect(globalAfterEach).to.equal(5);
 });
 
+it('fails', function(){
+  expect(false).to.equal(true);
+});
+
 afterEach(function(){
   globalAfterEach++;
   expect(globalAfter).to.equal(0);
