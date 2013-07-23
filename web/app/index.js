@@ -2,20 +2,39 @@ var dom    = require('domquery'),
     io     = require('simple.io')(),
     runner = require('./runner');
 
-runner.onError(function(error){
-  dom('<li><h3>{title}</h3><pre>{stack}</pre></li>', {
-    title: error.test || error.title,
-    stack: error.stack.join('\n')
-  }).insert('#result');
+io.sub(function(msg){
+  console.log('#', msg);
+  if (msg.update) {
+    runner.run();
+  }
+});
 
-  io.publish({
-    error: true,
-    name: error.test || error.title,
-    message: error.stack.slice(0, 1)[0],
-    stack: error.stack.slice(1).join('\n')
-  });
+runner.onError(function(error){
+  try {
+    dom('.errors').html('');
+    dom('.container').removeClass('passed').addClass('failed');
+    dom('<li><h3>{title}</h3><pre>{stack}</pre></li>', {
+      title: error.test || error.title,
+      stack: error.stack && error.stack.join('\n')
+    }).insert('.errors');
+
+    io.publish({
+      error: true,
+      name: error.test || error.title,
+      message: error.stack.slice(0, 1)[0],
+      stack: error.stack.slice(1).join('\n')
+    });
+  } catch (err) {
+    console.error('Fox Runtime Error', err);
+  }
 });
 
 runner.onFinish(function(passed){
-  dom('<h1>OK, passed {passed} tests.</h1>', { passed: passed }).insert('body');
+  dom('.container').addClass('passed').removeClass('failed');
+  dom('.ok').html('<h1>OK, passed {passed} tests.</h1>', { passed: passed });
+  document.title = 'OK, passed ' + passed + ' tests.';
+});
+
+runner.onStart(function(){
+  io.pub({ start: true, env: navigator.userAgent });
 });

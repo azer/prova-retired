@@ -1,8 +1,9 @@
 var dom      = require("domquery"),
     pubsub   = require('pubsub'),
+    onStart  = pubsub(),
     onError  = pubsub(),
     onFinish = pubsub(),
-    el       = dom('<iframe />').insert(document.body);
+    el;
 
 window.onFrameError = onError;
 window.onFrameFinish = onFinish;
@@ -10,14 +11,17 @@ window.onFrameFinish = onFinish;
 module.exports = {
   onError: onError,
   onFinish: onFinish,
+  onStart: onStart,
   run: run,
   reset: reset
 };
 
 function reset(){
-  el.attr('src', 'about:blank');
+  if(el) el.remove();
+  el = dom('<iframe src="context.html" />').insert(document.body);
 }
 
 function run(){
-  el.attr('src', 'context.html');
+  onStart.publish();
+  reset();
 }

@@ -1,6 +1,6 @@
 {
   "name": "fox",
-  "version": "1.1.0",
+  "version": "1.5.0",
   "description": "Pragmatic Testing Framework For NodeJS and Browsers.",
   "main": "lib/index.js",
   "bin": {
@@ -25,10 +25,11 @@
     "attr": "0.0.1",
     "phantom": "~0.5.1",
     "simple.io": "*",
-    "uniques": "0.0.0"
+    "uniques": "0.0.0",
+    "after-time": "0.0.0"
   },
   "devDependencies": {
-    "domquery": "0.0.11",
+    "domquery": "0.x",
     "indev": "0.x"
   },
   "repository": {

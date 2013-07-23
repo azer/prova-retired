@@ -8,6 +8,8 @@
 setTimeout(frame.run, 0);
 
 module.exports = {
+  run: frame.run,
+  onStart: frame.onStart,
   onError: onError,
   onFinish: onFinish
 };
@@ -23,12 +25,12 @@ frame.onError(function(updates){
   updates.forEach(function(el){
     var error = el.params[0],
         test  = el.params[1],
-        stack = cleanStackTrace(error.stack).split('\n');
+        stack = error.stack && cleanStackTrace(error.stack).split('\n');
 
     onError.publish({
       error: true,
       test: test.title,
-      stack: stack
+      stack: stack ? stack : [error.message]
     });
   });
 });
