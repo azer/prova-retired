@@ -75,7 +75,7 @@ describe('TestSuite', function(){
 });
 
 it('may have tests without description', function(){
-  expect(globalBefore).to.equal(3);
+  expect(globalBefore).to.equal(1);
   expect(globalBeforeEach).to.equal(5);
   expect(globalAfterEach).to.equal(4);
 });
