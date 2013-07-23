@@ -12,6 +12,10 @@ html, body { width:100%; height:100%; background: #fff; color: #333; margin:0; p
   display: none;
 }
 
+.fail {
+  padding: 75px 20px !important;
+}
+
 .passed .ok, .failed .fail { display: block; }
 
 .passed {

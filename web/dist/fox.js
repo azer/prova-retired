@@ -3,7 +3,6 @@
     runner = require('./runner');
 
 io.sub(function(msg){
-  console.log('#', msg);
   if (msg.update) {
     runner.run();
   }

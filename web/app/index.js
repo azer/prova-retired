@@ -3,7 +3,6 @@ var dom    = require('domquery'),
     runner = require('./runner');
 
 io.sub(function(msg){
-  console.log('#', msg);
   if (msg.update) {
     runner.run();
   }
