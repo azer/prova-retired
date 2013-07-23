@@ -2,6 +2,17 @@
 
 A new pragmatic JavaScript testing framework for both NodeJS and browsers. [Screencast](https://vimeo.com/70852179)
 
+## Features
+
+- No configuration needed.
+- NodeJS, Components, any form of CommonJS structured projects supported.
+- Headless testing
+- Beautified error outputs
+- Automatically runs tests on a file change, in open browsers
+- ChaiJS is injected to every module to avoid repeating.
+
+## Install
+
 ```bash
 $ npm install -g fox
 ```
@@ -43,9 +54,9 @@ $ fox -b
 Visit localhost:7559 to run tests on a web browser
 ```
 
-Once you pass `-b` parameter, fox [compiles your source code for browsers](https://github.com/azer/fox/blob/master/lib/browser.js#L18) and [publishes](https://github.com/azer/fox/blob/master/lib/server.js#L19) [a web page](https://github.com/azer/fox/blob/master/web/index.html) where you can run and see the test results.
+Once you pass `-b` parameter, fox [compiles your source code for browsers](https://github.com/azer/fox/blob/master/lib/browser.js) and [publishes](https://github.com/azer/fox/blob/master/lib/server.js) [a web page](https://github.com/azer/fox/blob/master/web/index.html) where you can run and see the test results.
 
-## Headless Testing
+## Running On PhantomJS Headlessly
 
 If you have PhantomJS installed in your system, run fox with `-bv` parameters to run the tests headlessly;
 
