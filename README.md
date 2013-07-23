@@ -5,7 +5,7 @@ A new pragmatic JavaScript testing framework for both NodeJS and browsers. [Scre
 ## Features
 
 - No configuration needed.
-- NodeJS, Components, any form of CommonJS structured projects supported.
+- NodeJS, Components, any kind of CommonJS structured projects supported.
 - Headless testing
 - Beautified error outputs
 - Automatically runs tests on a file change, in open browsers
