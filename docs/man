@@ -7,7 +7,10 @@
         -b     --browser    Publishes the tests on localhost:7559
         -bv    --visit      Publishes the tests and visits automatically. PhantomJS required.
         -p     --port       Changes the default port number. [7559]
+        -W     --no-watch   Do not watch file changes and run the tests automatically.
+
         -g     --grep       Run tests matching with given pattern
         -t     --timeout    Set test-case timeout in milliseconds [2000]
+
         -v     --version    Show version and exit
         -h     --help       Show help and exit

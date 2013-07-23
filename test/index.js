@@ -75,7 +75,7 @@ describe('TestSuite', function(){
 });
 
 it('may have tests without description', function(){
-  expect(globalBefore).to.equal(1);
+  expect(globalBefore).to.equal(3);
   expect(globalBeforeEach).to.equal(5);
   expect(globalAfterEach).to.equal(4);
 });
@@ -84,10 +84,6 @@ it('calls global beforeEach and afterEach for tests on top scope', function(){
   expect(globalBefore).to.equal(1);
   expect(globalBeforeEach).to.equal(6);
   expect(globalAfterEach).to.equal(5);
-});
-
-it('fails', function(){
-  expect(false).to.equal(true);
 });
 
 afterEach(function(){
