@@ -1,9 +1,8 @@
- var io             = require("simple.io")(),
-    pubsub          = require('pubsub'),
+var pubsub = require('pubsub'),
     cleanStackTrace = require('../../lib/clean-stack-trace'),
-    frame           = require('./frame'),
-    onError         = pubsub(),
-    onFinish        = pubsub();
+    frame = require('./frame'),
+    onError = pubsub(),
+    onFinish = pubsub();
 
 setTimeout(frame.run, 0);
 
@@ -37,7 +36,5 @@ frame.onError(function(updates){
 
 frame.onFinish(function(result){
   if ( !result.passed ) return;
-
-  io.publish({ finish: true, passed: result.passed });
   onFinish.publish(result.passed);
 });

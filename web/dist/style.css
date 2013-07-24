@@ -39,6 +39,22 @@ h1 { text-align: center; font: 38px 'Times New Roman', serif; }
   padding: 5px 10px;
 }
 
+.online, .offline {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  font: 14px Arial, sans-serif;
+}
+
+.online, .connected .offline {
+  display: none;
+}
+
+.connected .online {
+  display: block;
+}
+
 /*
 
 h1 { font: bold 36px Arial, sans-serif; text-align: center; }

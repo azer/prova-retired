@@ -2,6 +2,14 @@
     io     = require('simple.io')(),
     runner = require('./runner');
 
+io.onOpen(function(){
+  dom('.container').addClass('connected');
+});
+
+io.onClose(function(){
+  dom('.container').removeClass('connected');
+});
+
 io.sub(function(msg){
   if (msg.update) {
     runner.run();
@@ -10,6 +18,8 @@ io.sub(function(msg){
 
 runner.onError(function(error){
   try {
+    document.title = 'Tests failed, try again.';
+
     dom('.errors').html('');
     dom('.container').removeClass('passed').addClass('failed');
     dom('<li><h3>{title}</h3><pre>{stack}</pre></li>', {
@@ -19,6 +29,7 @@ runner.onError(function(error){
 
     io.publish({
       error: true,
+      env: navigator.userAgent,
       name: error.test || error.title,
       message: error.stack.slice(0, 1)[0],
       stack: error.stack.slice(1).join('\n')
@@ -29,6 +40,7 @@ runner.onError(function(error){
 });
 
 runner.onFinish(function(passed){
+  io.publish({ finish: true, passed: passed, env: navigator.userAgent });
   dom('.container').addClass('passed').removeClass('failed');
   dom('.ok').html('<h1>OK, passed {passed} tests.</h1>', { passed: passed });
   document.title = 'OK, passed ' + passed + ' tests.';
@@ -37,12 +49,11 @@ runner.onFinish(function(passed){
 runner.onStart(function(){
   io.pub({ start: true, env: navigator.userAgent });
 });
- },{"./runner":87,"domquery":90,"simple.io":112}],87:[function(require,module,exports){  var io             = require("simple.io")(),
-    pubsub          = require('pubsub'),
+ },{"./runner":87,"domquery":90,"simple.io":112}],87:[function(require,module,exports){ var pubsub = require('pubsub'),
     cleanStackTrace = require('../../lib/clean-stack-trace'),
-    frame           = require('./frame'),
-    onError         = pubsub(),
-    onFinish        = pubsub();
+    frame = require('./frame'),
+    onError = pubsub(),
+    onFinish = pubsub();
 
 setTimeout(frame.run, 0);
 
@@ -76,11 +87,9 @@ frame.onError(function(updates){
 
 frame.onFinish(function(result){
   if ( !result.passed ) return;
-
-  io.publish({ finish: true, passed: result.passed });
   onFinish.publish(result.passed);
 });
- },{"../../lib/clean-stack-trace":88,"./frame":89,"simple.io":112,"pubsub":111}],88:[function(require,module,exports){ module.exports = cleanStackTrace;
+ },{"../../lib/clean-stack-trace":88,"./frame":89,"pubsub":111}],88:[function(require,module,exports){ module.exports = cleanStackTrace;
 
 function cleanStackTrace(stack){
 
@@ -690,13 +699,19 @@ module.exports = newClient;
 function newClient(options){
   var io        = new EngineIO(options),
       pub       = newPublish(),
-      onMessage = pubsub(),
-      onClose   = pubsub();
+      onConnect = pubsub(),
+      onMessage = pubsub();
 
   io.onopen = onOpen;
 
+  function onClose(fn){
+    io.onclose = fn;
+  }
+
   function onOpen(){
     pub.socket(io);
+    onConnect.publish();
+
     io.on('message', function(msg){
       var parsed;
 
@@ -713,7 +728,9 @@ function newClient(options){
     pub: pub,
     publish: pub,
     sub: onMessage,
-    subscribe: onMessage
+    subscribe: onMessage,
+    onOpen: onConnect,
+    onClose: onClose
   };
 }
  },{"./publish":114,"engine.io-client":115,"pubsub":111}],114:[function(require,module,exports){ module.exports = newPublish;

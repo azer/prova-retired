@@ -3,7 +3,7 @@ fox = cmd './bin/fox'
 
 all 'web/dist', 'test'
 
-target 'web/dist', ->
+target 'web/dist', 'web/app', ->
   onejs 'web/app/globals.js -o web/dist/globals.js'
   onejs 'web/app/index.js -o web/dist/fox.js'
 
