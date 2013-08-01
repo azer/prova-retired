@@ -49,3 +49,20 @@ runner.onFinish(function(passed){
 runner.onStart(function(){
   io.pub({ start: true, env: navigator.userAgent });
 });
+
+dom('.show-iframe').on('click', showIframe);
+dom('.hide-iframe').on('click', hideIframe);
+
+function hideIframe(){
+  delete localStorage['foxShowIframe'];
+  dom('.container').addClass('hidden-iframe').removeClass('open-iframe');
+}
+
+function showIframe(){
+  localStorage['foxShowIframe'] = 't';
+  dom('.container').addClass('open-iframe').removeClass('hidden-iframe');
+}
+
+if(localStorage['foxShowIframe']){
+  showIframe();
+}

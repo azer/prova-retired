@@ -18,7 +18,7 @@ module.exports = {
 
 function reset(){
   if(el) el.remove();
-  el = dom('<iframe src="context.html" />').insert(document.body);
+  el = dom('<iframe src="context.html" />').insert('.frame');
 }
 
 function run(){
