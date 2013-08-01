@@ -5,10 +5,10 @@ A new pragmatic JavaScript testing framework for both NodeJS and browsers. [Scre
 ## Features
 
 - No configuration needed.
-- NodeJS, Components, any kind of CommonJS structured projects supported.
-- Headless testing
+- Can be used for both testing on NodeJS and browsers.
+- Automatically runs tests on a file change, in open browsers.
+- Headless testing with PhantomJS supported
 - Beautified error outputs
-- Automatically runs tests on a file change, in open browsers
 - ChaiJS is injected to every module to avoid repeating.
 
 ## Install
