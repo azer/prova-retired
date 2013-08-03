@@ -20,7 +20,6 @@ runner.onError(function(error){
   try {
     document.title = 'Tests failed, try again.';
 
-    dom('.errors').html('');
     dom('.container').removeClass('passed').addClass('failed');
     dom('<li><h3>{title}</h3><pre>{stack}</pre></li>', {
       title: error.test || error.title,
@@ -48,6 +47,7 @@ runner.onFinish(function(passed){
 
 runner.onStart(function(){
   io.pub({ start: true, env: navigator.userAgent });
+  dom('.errors').html('');
 });
 
 dom('.show-iframe').on('click', showIframe);
