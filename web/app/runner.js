@@ -54,5 +54,6 @@ frame.onRun(function(tests){
 
 function run(){
   ranTests.splice(0);
+  ranTests.onUpdate.publish();
   frame.run();
 }

@@ -176,6 +176,7 @@ frame.onRun(function(tests){
 
 function run(){
   ranTests.splice(0);
+  ranTests.onUpdate.publish();
   frame.run();
 }
  },{"../../lib/clean-stack-trace":113,"./frame":114,"pubsub":115}],113:[function(require,module,exports){ module.exports = cleanStackTrace;
