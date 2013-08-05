@@ -1,16 +1,21 @@
 var pubsub = require('pubsub'),
     cleanStackTrace = require('../../lib/clean-stack-trace'),
     frame = require('./frame'),
+    onRun = pubsub(),
     onError = pubsub(),
-    onFinish = pubsub();
+    onFinish = pubsub(),
+    ranTests = [];
+
+ranTests.onUpdate = pubsub();
 
 setTimeout(frame.run, 0);
 
 module.exports = {
-  run: frame.run,
+  run: run,
   onStart: frame.onStart,
   onError: onError,
-  onFinish: onFinish
+  onFinish: onFinish,
+  ranTests: ranTests
 };
 
 window.onerror = function(error){
@@ -35,6 +40,19 @@ frame.onError(function(updates){
 });
 
 frame.onFinish(function(result){
-  if ( !result.passed ) return;
-  onFinish.publish(result.passed);
+  if ( !result.hasOwnProperty('passed') ) return;
+  onFinish.publish(result);
 });
+
+frame.onRun(function(tests){
+  tests.forEach(function(test){
+    ranTests.push({ title: test.params[0].title, error: test.params[1] });
+  });
+
+  ranTests.onUpdate.publish();
+});
+
+function run(){
+  ranTests.splice(0);
+  frame.run();
+}

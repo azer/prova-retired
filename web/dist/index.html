@@ -5,9 +5,9 @@
     <title>fox</title>
     <link href="style.css"  rel="stylesheet" media="screen">
   </head>
-  <body>
+  <body class="hidden-iframe">
 
-    <div class="container hidden-iframe">
+    <div class="container">
       <div class="frame"></div>
       <div class="ok">
       </div>
@@ -16,11 +16,28 @@
         <ul class="errors"></ul>
       </div>
 
-      <div class="show-iframe">Show Iframe</div>
-      <div class="hide-iframe">Hide Iframe</div>
+      <div class="nf">
+        <h1>Couldn't find any matching tests matching "<span class="grep"></span>".</h1>
+      </div>
 
+
+    </div>
+
+    <div class="buttons">
       <div class="online">Connected</div>
       <div class="offline">Disconnected</div>
+      <div class="center">
+        <div class="button show-iframe"><span>Show Iframe</span></div>
+        <div class="button hide-iframe"><span>Hide Iframe</span></div>
+        <div class="button run-again"><span>Run Again</span></div>
+      </div>
+    </div>
+
+    <ul class="ran-tests">
+    </ul>
+
+    <div class="grep-wrapper">
+      <div><label>Grep &#x2192;</label><input id="grep" type="text" /></div>
     </div>
 
   </body>
