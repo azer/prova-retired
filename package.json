@@ -1,6 +1,6 @@
 {
   "name": "fox",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "description": "Pragmatic Testing Framework For NodeJS and Browsers.",
   "main": "lib/index.js",
   "bin": {
