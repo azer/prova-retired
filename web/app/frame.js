@@ -28,7 +28,7 @@ function reset(){
 }
 
 function run(){
-  console.clear();
+  console && console.clear && console.clear();
   onStart.publish();
   reset();
 }

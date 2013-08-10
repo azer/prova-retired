@@ -182,8 +182,6 @@ function run(){
  },{"../../lib/clean-stack-trace":113,"./frame":114,"pubsub":115}],113:[function(require,module,exports){ module.exports = cleanStackTrace;
 
 function cleanStackTrace(stack){
-  return stack;
-
   if(!stack) return '';
 
   return stack
@@ -239,7 +237,7 @@ function reset(){
 }
 
 function run(){
-  console.clear();
+  console && console.clear && console.clear();
   onStart.publish();
   reset();
 }
