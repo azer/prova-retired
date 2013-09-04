@@ -1,6 +1,6 @@
 ## Fox [![Build Status](https://travis-ci.org/azer/fox.png)](https://travis-ci.org/azer/fox)
 
-A new pragmatic JavaScript testing framework for both NodeJS and browsers. [Screencast](https://vimeo.com/70852179)
+A new pragmatic JavaScript testing framework for both NodeJS and browsers. [Screencast](https://vimeo.com/72334347)
 
 ## Features
 
