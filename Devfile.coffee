@@ -1,5 +1,5 @@
 onejs = bin "one/onejs"
-fox = cmd './bin/fox'
+fox = cmd.async './bin/fox'
 
 all 'web/dist', 'test'
 
