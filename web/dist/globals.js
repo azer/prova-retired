@@ -4,13 +4,16 @@
     suites = require('../../lib/suites'),
     bdd = require('../../lib/bdd'),
     setGrepPattern = require('../../lib/grep').pattern,
+    timeout = require('../../lib/options').timeout,
     parsedURL = url.parse(document.location.href),
     params = qs.parse(parsedURL.query);
 
 params.grep && setGrepPattern(params.grep);
+params.timeout != undefined && timeout(params.timeout);
 
 chai.Assertion.includeStack = true;
 
+window.require = require;
 window.suites = suites;
 
 window.assert     = chai.assert;
@@ -29,7 +32,7 @@ suites.onFinish(function(msg){
   params.grep && (msg.grep = params.grep);
   window.parent.onFrameFinish.publish(msg);
 })
- },{"../../lib/suites":49,"../../lib/bdd":55,"../../lib/grep":57,"chai":62,"url":47,"querystring":48}],49:[function(require,module,exports){ var subscribe         = require('subscribe'),
+ },{"../../lib/suites":49,"../../lib/bdd":55,"../../lib/grep":57,"../../lib/options":58,"chai":62,"url":47,"querystring":48}],49:[function(require,module,exports){ var subscribe         = require('subscribe'),
     pubsub            = require('pubsub'),
 
     globals           = require("./globals"),
@@ -142,11 +145,17 @@ module.exports.pattern = function(newPattern){
 function test(text){
   return !pattern || pattern.test(text);
 }
- },{}],56:[function(require,module,exports){ var pubsub  = require('pubsub'),
+ },{}],58:[function(require,module,exports){ var attrs = require("attr").attrs;
+
+module.exports = attrs({
+  port: 7559,
+  timeout: 2000
+});
+ },{"attr":59}],56:[function(require,module,exports){ var pubsub  = require('pubsub'),
     globals = require('./globals'),
     suites  = require('./suites'),
     grep    = require('./grep'),
-    timeout = require('./timeout');
+    timeout = require('./options').timeout;
 
 module.exports = TestSuite;
 
@@ -228,18 +237,11 @@ TestSuite.prototype.run = function(test, next){
     }
 
   } catch(error){
-    self.errors.push({ test: test, error: error });
-
-    setTimeout(function(){
-      self.onError.publish(error, test);
-    }, 0);
-
     done(error);
   }
 
   function checkTimeout(){
     checkTimeout.ref = setTimeout(function(){
-
       if(done.called) return;
 
       self.error(new Error('timeout of ' + timeout() + 'ms exceeded.'), test);
@@ -248,6 +250,14 @@ TestSuite.prototype.run = function(test, next){
   }
 
   function done(error){
+
+    if (error) {
+      self.errors.push({ test: test, error: error });
+
+      setTimeout(function(){
+        self.onError.publish(error, test);
+      }, 0);
+    }
 
     if(checkTimeout.ref != undefined){
       clearTimeout(checkTimeout.ref);
@@ -316,7 +326,7 @@ TestSuite.prototype.runAll = function(callback, undefined){
   });
 
 };
- },{"./globals":50,"./suites":49,"./grep":57,"./timeout":58,"pubsub":54}],50:[function(require,module,exports){ module.exports = {
+ },{"./globals":50,"./suites":49,"./grep":57,"./options":58,"pubsub":54}],50:[function(require,module,exports){ module.exports = {
   before     : before,
   beforeEach : beforeEach,
   after      : after,
@@ -338,10 +348,7 @@ function after(callback){
 function afterEach(callback){
   callback();
 }
- },{}],58:[function(require,module,exports){ var attr = require('attr');
-
-module.exports = attr(2000);
- },{"attr":59}],62:[function(require,module,exports){ module.exports = require('./lib/chai');
+ },{}],62:[function(require,module,exports){ module.exports = require('./lib/chai');
  },{"./lib/chai":63}],63:[function(require,module,exports){ /*!
  * chai
  * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>

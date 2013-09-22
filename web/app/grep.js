@@ -1,16 +1,13 @@
 var params = require('./params'),
     dom = require('domquery'),
-    qs = require('querystring'),
     input = dom('#grep');
 
-dom(window).on('hashchange', function(){
+params.onChange(function () {
   updateInput();
 });
 
 input.on(':enter', function(){
-  var p = qs.parse(params());
-  p.grep = input.val();
-  document.location.href = document.location.href.split('#')[0] + '#' + qs.stringify(p);
+  params('grep', input.val());
 });
 
 dom('.grep-wrapper').click(function(){
@@ -26,5 +23,5 @@ function updateInput(){
 }
 
 function grep(){
-  return qs.parse(params()).grep || '';
+  return params('grep');
 }

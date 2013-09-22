@@ -4,13 +4,16 @@ var chai = require('chai'),
     suites = require('../../lib/suites'),
     bdd = require('../../lib/bdd'),
     setGrepPattern = require('../../lib/grep').pattern,
+    timeout = require('../../lib/options').timeout,
     parsedURL = url.parse(document.location.href),
     params = qs.parse(parsedURL.query);
 
 params.grep && setGrepPattern(params.grep);
+params.timeout != undefined && timeout(params.timeout);
 
 chai.Assertion.includeStack = true;
 
+window.require = require;
 window.suites = suites;
 
 window.assert     = chai.assert;

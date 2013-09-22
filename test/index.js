@@ -56,6 +56,13 @@ describe('TestSuite', function(){
     done();
   });
 
+  it('waits until specified timeout (default 1500)', function(done){
+    setTimeout(function () {
+      done();
+    }, 2350);
+  });
+
+
   afterEach(function(done){
     localAfterEach++;
     expect(localAfter).to.equal(0);
@@ -64,10 +71,10 @@ describe('TestSuite', function(){
 
   after(function(done){
     expect(localAfter).to.equal(0);
-    expect(localAfterEach).to.equal(4);
+    expect(localAfterEach).to.equal(5);
 
     expect(globalAfter).to.equal(0);
-    expect(globalAfterEach).to.equal(4);
+    expect(globalAfterEach).to.equal(5);
 
     done();
   });
@@ -76,14 +83,14 @@ describe('TestSuite', function(){
 
 it('may have tests without description', function(){
   expect(globalBefore).to.equal(1);
-  expect(globalBeforeEach).to.equal(5);
-  expect(globalAfterEach).to.equal(4);
+  expect(globalBeforeEach).to.equal(6);
+  expect(globalAfterEach).to.equal(5);
 });
 
 it('calls global beforeEach and afterEach for tests on top scope', function(){
   expect(globalBefore).to.equal(1);
-  expect(globalBeforeEach).to.equal(6);
-  expect(globalAfterEach).to.equal(5);
+  expect(globalBeforeEach).to.equal(7);
+  expect(globalAfterEach).to.equal(6);
 });
 
 afterEach(function(){
@@ -92,6 +99,6 @@ afterEach(function(){
 });
 
 after(function(done){
-  expect(globalAfterEach).to.equal(6);
+  expect(globalAfterEach).to.equal(7);
   done();
 });

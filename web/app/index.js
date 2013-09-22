@@ -1,7 +1,10 @@
-var dom    = require('domquery'),
-    io     = require('simple.io')(),
-    grep   = require('./grep'),
-    runner = require('./runner');
+var dom = require('domquery'),
+    pref = require('pref'),
+    grep = require('./grep'),
+    runner = require('./runner'),
+    io = require('./io'),
+    params = require('./params'),
+    timeout = require('./timeout');
 
 io.onOpen(function(){
   dom('.buttons').addClass('connected');
@@ -11,15 +14,7 @@ io.onClose(function(){
   dom('.buttons').removeClass('connected');
 });
 
-io.sub(function(msg){
-  if (msg.update) {
-    runner.run();
-  }
-});
-
-dom(window).on('hashchange', function(){
-  runner.run();
-});
+dom(window).on('hashchange', runner.run);
 
 dom('.run-again').click(runner.run);
 
@@ -78,15 +73,17 @@ dom('.show-iframe').on('click', showIframe);
 dom('.hide-iframe').on('click', hideIframe);
 
 function hideIframe(){
-  delete localStorage['foxShowIframe'];
+  pref('show-iframe', false);
+  params('show-iframe', undefined);
   dom('body').addClass('hidden-iframe').removeClass('open-iframe');
 }
 
 function showIframe(){
-  localStorage['foxShowIframe'] = 't';
+  pref('show-iframe', true);
+  params('show-iframe', 'y');
   dom('body').addClass('open-iframe').removeClass('hidden-iframe');
 }
 
-if(localStorage['foxShowIframe']){
+if(pref('show-iframe') || params('show-iframe') != undefined){
   showIframe();
 }

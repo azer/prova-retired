@@ -26,7 +26,8 @@
     "phantom": "~0.5.1",
     "simple.io": "*",
     "uniques": "0.0.0",
-    "after-time": "0.0.0"
+    "after-time": "0.0.0",
+    "pref": "0.0.1"
   },
   "devDependencies": {
     "domquery": "0.x",

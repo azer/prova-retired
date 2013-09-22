@@ -22,8 +22,7 @@ module.exports = {
 
 function reset(){
   if(el) el.remove();
-  var url = 'context.html?' + params();
-
+  var url = 'context.html?' + params.stringify();
   el = dom('<iframe src="' + url + '" />').insert('.frame');
 }
 

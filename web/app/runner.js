@@ -1,22 +1,23 @@
 var pubsub = require('pubsub'),
+    attr = require('attr'),
     cleanStackTrace = require('../../lib/clean-stack-trace'),
     frame = require('./frame'),
+    io = require('./io'),
     onRun = pubsub(),
     onError = pubsub(),
     onFinish = pubsub(),
-    ranTests = [];
+    ranTests = [],
+    timeout;
+
+io.sub(function(msg){
+  if (msg.update) {
+    run();
+  }
+});
 
 ranTests.onUpdate = pubsub();
 
 setTimeout(frame.run, 0);
-
-module.exports = {
-  run: run,
-  onStart: frame.onStart,
-  onError: onError,
-  onFinish: onFinish,
-  ranTests: ranTests
-};
 
 window.onerror = function(error){
   onError.publish({
@@ -52,7 +53,15 @@ frame.onRun(function(tests){
   ranTests.onUpdate.publish();
 });
 
-function run(){
+module.exports = {
+  run: run,
+  onStart: frame.onStart,
+  onError: onError,
+  onFinish: onFinish,
+  ranTests: ranTests
+};
+
+function run () {
   ranTests.splice(0);
   ranTests.onUpdate.publish();
   frame.run();
