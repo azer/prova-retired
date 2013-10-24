@@ -1,6 +1,6 @@
 {
   "name": "fox",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Pragmatic Testing Framework For NodeJS and Browsers.",
   "main": "lib/index.js",
   "bin": {
@@ -18,7 +18,7 @@
     "glob": "3.x",
     "map": "*",
     "require-like": "0.x",
-    "express": "3.x",
+    "express": "3.3.4",
     "styled": "0.0.1",
     "show-help": "0.0.0",
     "show-version": "0.0.0",
