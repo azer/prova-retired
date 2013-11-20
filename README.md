@@ -1,4 +1,4 @@
-## Fox [![Build Status](https://travis-ci.org/azer/fox.png)](https://travis-ci.org/azer/fox)
+## Prova [![Build Status](https://travis-ci.org/azer/prova.png)](https://travis-ci.org/azer/prova)
 
 A new pragmatic JavaScript testing framework for both NodeJS and browsers. [Screencast](https://vimeo.com/72334347)
 
@@ -15,7 +15,7 @@ A new pragmatic JavaScript testing framework for both NodeJS and browsers. [Scre
 ## Install
 
 ```bash
-$ npm install -g fox
+$ npm install -g prova
 ```
 
 ## First Steps
@@ -42,7 +42,7 @@ Available BDD methods:
 ## Running on Node
 
 ```bash
-$ fox # It'll look modules like test.js and test/index by default. You can specify them manually; fox test_foo.js test_b*.js
+$ prova # It'll look modules like test.js and test/index by default. You can specify them manually; prova test_foo.js test_b*.js
 OK, passed 1 test.
 ```
 
@@ -51,7 +51,7 @@ OK, passed 1 test.
 ## Running On Browsers
 
 ```bash
-$ fox -b
+$ prova -b
 Visit localhost:7559 to run tests on a web browser
 ```
 
@@ -59,7 +59,7 @@ Once you pass `-b` parameter, fox [compiles your source code for browsers](https
 
 ## Running On PhantomJS Headlessly
 
-If you have PhantomJS installed in your system, run fox with `-bv` parameters to run the tests headlessly;
+If you have PhantomJS installed in your system, run prova with `-bv` parameters to run the tests headlessly;
 
 ```bash
 $ fox -bv
