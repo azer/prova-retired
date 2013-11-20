@@ -276,7 +276,7 @@ function cleanStackTrace(stack){
   return stack
         .split('\n')
         .filter(function(line){
-          return !isFoxTrace(line) && !isChaiTrace(line) && !isJQueryTrace(line);
+          return !isProvaTrace(line) && !isChaiTrace(line) && !isJQueryTrace(line);
         })
         .filter(function(el, ind, list){
           return list[ind-1] != el;
@@ -289,8 +289,8 @@ function isJQueryTrace(line){
   return /\/jquery\.min\.js/.test(line);
 }
 
-function isFoxTrace(line){
-  return /\/fox\/(lib|bin|node_modules)/.test(line) || /\/fox\.js/.test(line) || /\/fox-runner\.js/.test(line);
+function isProvaTrace(line){
+  return /\/prova\/(lib|bin|node_modules)/.test(line) || /\/prova\.js/.test(line) || /\/prova-runner\.js/.test(line);
 }
 
 function isChaiTrace(line){

@@ -1,13 +1,13 @@
 {
-  "name": "fox",
-  "version": "1.6.2",
+  "name": "prova",
+  "version": "0.0.0",
   "description": "Pragmatic Testing Framework For NodeJS and Browsers.",
   "main": "lib/index.js",
   "bin": {
-    "fox": "./bin/fox"
+    "prova": "./bin/prova"
   },
   "scripts": {
-    "test": "./bin/fox"
+    "test": "./bin/prova"
   },
   "dependencies": {
     "pubsub": "*",
@@ -31,10 +31,10 @@
   },
   "devDependencies": {
     "domquery": "0.x",
-    "indev": "0.x"
+    "bud": "0.x"
   },
   "repository": {
-    "url": "git@github.com:azer/fox.git",
+    "url": "git@github.com:azer/prova.git",
     "type": "git"
   },
   "author": "Azer Koculu <azer@kodfabrik.com>",
