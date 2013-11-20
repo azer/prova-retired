@@ -55,14 +55,14 @@ $ prova -b
 Visit localhost:7559 to run tests on a web browser
 ```
 
-Once you pass `-b` parameter, fox [compiles your source code for browsers](https://github.com/azer/fox/blob/master/lib/browser.js) and [publishes](https://github.com/azer/fox/blob/master/lib/server.js) [a web page](https://github.com/azer/fox/blob/master/web/index.html) where you can run and see the test results.
+Once you pass `-b` parameter, Prova [compiles your source code for browsers](https://github.com/azer/fox/blob/master/lib/browser.js) and [publishes](https://github.com/azer/fox/blob/master/lib/server.js) [a web page](https://github.com/azer/fox/blob/master/web/index.html) where you can run and see the test results.
 
 ## Running On PhantomJS Headlessly
 
-If you have PhantomJS installed in your system, run prova with `-bv` parameters to run the tests headlessly;
+If you have PhantomJS installed in your system, run Prova with `-bv` parameters to run the tests headlessly;
 
 ```bash
-$ fox -bv
+$ prova -bv
 ```
 
 ![](https://dl.dropboxusercontent.com/s/xji3v0p4yonssgy/fox-bv.png)
