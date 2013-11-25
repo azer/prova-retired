@@ -84,6 +84,6 @@ function showIframe(){
   dom('body').addClass('open-iframe').removeClass('hidden-iframe');
 }
 
-if(pref('show-iframe') || params('show-iframe') != undefined){
+if(pref('show-iframe') || params('show-iframe')){
   showIframe();
 }

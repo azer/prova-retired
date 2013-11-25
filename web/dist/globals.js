@@ -32,7 +32,7 @@ suites.onFinish(function(msg){
   params.grep && (msg.grep = params.grep);
   window.parent.onFrameFinish.publish(msg);
 })
- },{"../../lib/suites":49,"../../lib/bdd":55,"../../lib/grep":57,"../../lib/options":58,"chai":62,"url":47,"querystring":48}],49:[function(require,module,exports){ var subscribe         = require('subscribe'),
+ },{"../../lib/suites":52,"../../lib/bdd":58,"../../lib/grep":60,"../../lib/options":61,"chai":65,"url":50,"querystring":51}],52:[function(require,module,exports){ var subscribe         = require('subscribe'),
     pubsub            = require('pubsub'),
 
     globals           = require("./globals"),
@@ -86,7 +86,7 @@ function run(){
     iter(0);
   });
 }
- },{"./globals":50,"subscribe":51,"pubsub":54}],55:[function(require,module,exports){ var TestSuite = require('./testsuite'),
+ },{"./globals":53,"subscribe":54,"pubsub":57}],58:[function(require,module,exports){ var TestSuite = require('./testsuite'),
     globals   = require('./globals');
 
 module.exports = {
@@ -135,7 +135,7 @@ function it(title, fn){
   fn.testsuite = it.caller.testsuite || new TestSuite(title);
   fn.testsuite.test(it.caller.testsuite ? title : '', fn);
 }
- },{"./testsuite":56,"./globals":50}],57:[function(require,module,exports){ var pattern = undefined;
+ },{"./testsuite":59,"./globals":53}],60:[function(require,module,exports){ var pattern = undefined;
 
 module.exports = test;
 module.exports.pattern = function(newPattern){
@@ -145,13 +145,13 @@ module.exports.pattern = function(newPattern){
 function test(text){
   return !pattern || pattern.test(text);
 }
- },{}],58:[function(require,module,exports){ var attrs = require("attr").attrs;
+ },{}],61:[function(require,module,exports){ var attrs = require("attr").attrs;
 
 module.exports = attrs({
   port: 7559,
   timeout: 2000
 });
- },{"attr":59}],56:[function(require,module,exports){ var pubsub  = require('pubsub'),
+ },{"attr":62}],59:[function(require,module,exports){ var pubsub  = require('pubsub'),
     globals = require('./globals'),
     suites  = require('./suites'),
     grep    = require('./grep'),
@@ -326,7 +326,7 @@ TestSuite.prototype.runAll = function(callback, undefined){
   });
 
 };
- },{"./globals":50,"./suites":49,"./grep":57,"./options":58,"pubsub":54}],50:[function(require,module,exports){ module.exports = {
+ },{"./globals":53,"./suites":52,"./grep":60,"./options":61,"pubsub":57}],53:[function(require,module,exports){ module.exports = {
   before     : before,
   beforeEach : beforeEach,
   after      : after,
@@ -348,8 +348,8 @@ function after(callback){
 function afterEach(callback){
   callback();
 }
- },{}],62:[function(require,module,exports){ module.exports = require('./lib/chai');
- },{"./lib/chai":63}],63:[function(require,module,exports){ /*!
+ },{}],65:[function(require,module,exports){ module.exports = require('./lib/chai');
+ },{"./lib/chai":66}],66:[function(require,module,exports){ /*!
  * chai
  * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -362,7 +362,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '1.7.2';
+exports.version = '1.8.1';
 
 /*!
  * Assertion Error
@@ -429,7 +429,7 @@ exports.use(should);
 
 var assert = require('./chai/interface/assert');
 exports.use(assert);
- },{"./chai/utils":64,"./chai/assertion":83,"./chai/core/assertions":84,"./chai/interface/expect":85,"./chai/interface/should":86,"./chai/interface/assert":87,"assertion-error":88}],64:[function(require,module,exports){ /*!
+ },{"./chai/utils":67,"./chai/assertion":89,"./chai/core/assertions":90,"./chai/interface/expect":91,"./chai/interface/should":92,"./chai/interface/assert":93,"assertion-error":94}],67:[function(require,module,exports){ /*!
  * chai
  * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -493,7 +493,7 @@ exports.transferFlags = require('./transferFlags');
  * Deep equal utility
  */
 
-exports.eql = require('./eql');
+exports.eql = require('deep-eql');
 
 /*!
  * Deep path value
@@ -537,7 +537,7 @@ exports.overwriteMethod = require('./overwriteMethod');
 
 exports.addChainableMethod = require('./addChainableMethod');
 
- },{"./test":65,"./type":67,"./getMessage":68,"./getActual":69,"./inspect":70,"./objDisplay":74,"./flag":66,"./transferFlags":75,"./eql":76,"./getPathValue":77,"./getName":71,"./addProperty":78,"./addMethod":79,"./overwriteProperty":80,"./overwriteMethod":81,"./addChainableMethod":82}],83:[function(require,module,exports){ /*!
+ },{"./test":68,"./type":70,"./getMessage":71,"./getActual":72,"./inspect":73,"./objDisplay":77,"./flag":69,"./transferFlags":78,"./getPathValue":79,"./getName":74,"./addProperty":80,"./addMethod":81,"./overwriteProperty":82,"./overwriteMethod":83,"./addChainableMethod":84,"deep-eql":85}],89:[function(require,module,exports){ /*!
  * chai
  * http://chaijs.com
  * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
@@ -667,7 +667,7 @@ module.exports = function (_chai, util) {
       }
   });
 };
- },{}],84:[function(require,module,exports){ /*!
+ },{}],90:[function(require,module,exports){ /*!
  * chai
  * http://chaijs.com
  * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
@@ -913,8 +913,8 @@ module.exports = function (chai, _) {
    *
    * Asserts that the target is `undefined`.
    *
-   *      expect(undefined).to.be.undefined;
-   *      expect(null).to.not.be.undefined;
+   *     expect(undefined).to.be.undefined;
+   *     expect(null).to.not.be.undefined;
    *
    * @name undefined
    * @api public
@@ -1794,8 +1794,8 @@ module.exports = function (chai, _) {
    * To check if a constructor will respond to a static function,
    * set the `itself` flag.
    *
-   *    Klass.baz = function(){};
-   *    expect(Klass).itself.to.respondTo('baz');
+   *     Klass.baz = function(){};
+   *     expect(Klass).itself.to.respondTo('baz');
    *
    * @name respondTo
    * @param {String} method
@@ -1823,12 +1823,12 @@ module.exports = function (chai, _) {
    *
    * Sets the `itself` flag, later used by the `respondTo` assertion.
    *
-   *    function Foo() {}
-   *    Foo.bar = function() {}
-   *    Foo.prototype.baz = function() {}
+   *     function Foo() {}
+   *     Foo.bar = function() {}
+   *     Foo.prototype.baz = function() {}
    *
-   *    expect(Foo).itself.to.respondTo('bar');
-   *    expect(Foo).itself.not.to.respondTo('baz');
+   *     expect(Foo).itself.to.respondTo('bar');
+   *     expect(Foo).itself.not.to.respondTo('baz');
    *
    * @name itself
    * @api public
@@ -1937,7 +1937,7 @@ module.exports = function (chai, _) {
     );
   });
 };
- },{}],85:[function(require,module,exports){ /*!
+ },{}],91:[function(require,module,exports){ /*!
  * chai
  * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -1949,7 +1949,7 @@ module.exports = function (chai, util) {
   };
 };
 
- },{}],86:[function(require,module,exports){ /*!
+ },{}],92:[function(require,module,exports){ /*!
  * chai
  * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -2025,7 +2025,7 @@ module.exports = function (chai, util) {
   chai.should = loadShould;
   chai.Should = loadShould;
 };
- },{"chai":62}],87:[function(require,module,exports){ /*!
+ },{"chai":65}],93:[function(require,module,exports){ /*!
  * chai
  * Copyright(c) 2011-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -3105,7 +3105,7 @@ module.exports = function (chai, util) {
   ('Throw', 'throw')
   ('Throw', 'throws');
 };
- },{}],65:[function(require,module,exports){ /*!
+ },{}],68:[function(require,module,exports){ /*!
  * Chai - test utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -3131,7 +3131,7 @@ module.exports = function (obj, args) {
     , expr = args[0];
   return negate ? !expr : expr;
 };
- },{"./flag":66}],67:[function(require,module,exports){ /*!
+ },{"./flag":69}],70:[function(require,module,exports){ /*!
  * Chai - type utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -3176,7 +3176,7 @@ module.exports = function (obj) {
   if (obj === Object(obj)) return 'object';
   return typeof obj;
 };
- },{}],68:[function(require,module,exports){ /*!
+ },{}],71:[function(require,module,exports){ /*!
  * Chai - message composition utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -3225,7 +3225,7 @@ module.exports = function (obj, args) {
 
   return flagMsg ? flagMsg + ': ' + msg : msg;
 };
- },{"./flag":66,"./getActual":69,"./inspect":70,"./objDisplay":74}],69:[function(require,module,exports){ /*!
+ },{"./flag":69,"./getActual":72,"./inspect":73,"./objDisplay":77}],72:[function(require,module,exports){ /*!
  * Chai - getActual utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -3244,7 +3244,7 @@ module.exports = function (obj, args) {
   var actual = args[4];
   return 'undefined' !== typeof actual ? actual : obj._obj;
 };
- },{}],70:[function(require,module,exports){ // This is (almost) directly from Node.js utils
+ },{}],73:[function(require,module,exports){ // This is (almost) directly from Node.js utils
 // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
 
 var getName = require('./getName');
@@ -3564,7 +3564,7 @@ function isError(e) {
 function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
- },{"./getName":71,"./getProperties":72,"./getEnumerableProperties":73}],74:[function(require,module,exports){ /*!
+ },{"./getName":74,"./getProperties":75,"./getEnumerableProperties":76}],77:[function(require,module,exports){ /*!
  * Chai - flag utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -3612,7 +3612,7 @@ module.exports = function (obj) {
     return str;
   }
 };
- },{"./inspect":70}],66:[function(require,module,exports){ /*!
+ },{"./inspect":73}],69:[function(require,module,exports){ /*!
  * Chai - flag utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -3644,7 +3644,7 @@ module.exports = function (obj, key, value) {
     return flags[key];
   }
 };
- },{}],75:[function(require,module,exports){ /*!
+ },{}],78:[function(require,module,exports){ /*!
  * Chai - transferFlags utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -3688,136 +3688,7 @@ module.exports = function (assertion, object, includeAll) {
     }
   }
 };
- },{}],76:[function(require,module,exports){ // This is (almost) directly from Node.js assert
-// https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/assert.js
-
-module.exports = _deepEqual;
-
-var getEnumerableProperties = require('./getEnumerableProperties');
-
-// for the browser
-var Buffer;
-try {
-  Buffer = require('buffer').Buffer;
-} catch (ex) {
-  Buffer = {
-    isBuffer: function () { return false; }
-  };
-}
-
-function _deepEqual(actual, expected, memos) {
-
-  // 7.1. All identical values are equivalent, as determined by ===.
-  if (actual === expected) {
-    return true;
-
-  } else if (Buffer.isBuffer(actual) && Buffer.isBuffer(expected)) {
-    if (actual.length != expected.length) return false;
-
-    for (var i = 0; i < actual.length; i++) {
-      if (actual[i] !== expected[i]) return false;
-    }
-
-    return true;
-
-  // 7.2. If the expected value is a Date object, the actual value is
-  // equivalent if it is also a Date object that refers to the same time.
-  } else if (expected instanceof Date) {
-    if (!(actual instanceof Date)) return false;
-    return actual.getTime() === expected.getTime();
-
-  // 7.3. Other pairs that do not both pass typeof value == 'object',
-  // equivalence is determined by ==.
-  } else if (typeof actual != 'object' && typeof expected != 'object') {
-    return actual === expected;
-
-  } else if (expected instanceof RegExp) {
-    if (!(actual instanceof RegExp)) return false;
-    return actual.toString() === expected.toString();
-
-  // 7.4. For all other Object pairs, including Array objects, equivalence is
-  // determined by having the same number of owned properties (as verified
-  // with Object.prototype.hasOwnProperty.call), the same set of keys
-  // (although not necessarily the same order), equivalent values for every
-  // corresponding key, and an identical 'prototype' property. Note: this
-  // accounts for both named and indexed properties on Arrays.
-  } else {
-    return objEquiv(actual, expected, memos);
-  }
-}
-
-function isUndefinedOrNull(value) {
-  return value === null || value === undefined;
-}
-
-function isArguments(object) {
-  return Object.prototype.toString.call(object) == '[object Arguments]';
-}
-
-function objEquiv(a, b, memos) {
-  if (isUndefinedOrNull(a) || isUndefinedOrNull(b))
-    return false;
-
-  // an identical 'prototype' property.
-  if (a.prototype !== b.prototype) return false;
-
-  // check if we have already compared a and b
-  var i;
-  if (memos) {
-    for(i = 0; i < memos.length; i++) {
-      if ((memos[i][0] === a && memos[i][1] === b) ||
-          (memos[i][0] === b && memos[i][1] === a))
-        return true;
-    }
-  } else {
-    memos = [];
-  }
-
-  //~~~I've managed to break Object.keys through screwy arguments passing.
-  //   Converting to array solves the problem.
-  if (isArguments(a)) {
-    if (!isArguments(b)) {
-      return false;
-    }
-    a = pSlice.call(a);
-    b = pSlice.call(b);
-    return _deepEqual(a, b, memos);
-  }
-  try {
-    var ka = getEnumerableProperties(a),
-        kb = getEnumerableProperties(b),
-        key;
-  } catch (e) {//happens when one is a string literal and the other isn't
-    return false;
-  }
-
-  // having the same number of owned properties (keys incorporates
-  // hasOwnProperty)
-  if (ka.length != kb.length)
-    return false;
-
-  //the same set of keys (although not necessarily the same order),
-  ka.sort();
-  kb.sort();
-  //~~~cheap key test
-  for (i = ka.length - 1; i >= 0; i--) {
-    if (ka[i] != kb[i])
-      return false;
-  }
-
-  // remember objects we have compared to guard against circular references
-  memos.push([ a, b ]);
-
-  //equivalent values for every corresponding key, and
-  //~~~possibly expensive deep test
-  for (i = ka.length - 1; i >= 0; i--) {
-    key = ka[i];
-    if (!_deepEqual(a[key], b[key], memos)) return false;
-  }
-
-  return true;
-}
- },{"./getEnumerableProperties":73,"buffer":29}],77:[function(require,module,exports){ /*!
+ },{}],79:[function(require,module,exports){ /*!
  * Chai - getPathValue utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * @see https://github.com/logicalparadox/filtr
@@ -3919,7 +3790,7 @@ function _getPathValue (parsed, obj) {
   }
   return res;
 };
- },{}],71:[function(require,module,exports){ /*!
+ },{}],74:[function(require,module,exports){ /*!
  * Chai - getName utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -3939,7 +3810,7 @@ module.exports = function (func) {
   var match = /^\s?function ([^(]*)\(/.exec(func);
   return match && match[1] ? match[1] : "";
 };
- },{}],78:[function(require,module,exports){ /*!
+ },{}],80:[function(require,module,exports){ /*!
  * Chai - addProperty utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -3979,7 +3850,7 @@ module.exports = function (ctx, name, getter) {
     , configurable: true
   });
 };
- },{}],79:[function(require,module,exports){ /*!
+ },{}],81:[function(require,module,exports){ /*!
  * Chai - addMethod utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -4016,7 +3887,7 @@ module.exports = function (ctx, name, method) {
     return result === undefined ? this : result;
   };
 };
- },{}],80:[function(require,module,exports){ /*!
+ },{}],82:[function(require,module,exports){ /*!
  * Chai - overwriteProperty utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -4070,7 +3941,7 @@ module.exports = function (ctx, name, getter) {
     , configurable: true
   });
 };
- },{}],81:[function(require,module,exports){ /*!
+ },{}],83:[function(require,module,exports){ /*!
  * Chai - overwriteMethod utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -4121,7 +3992,7 @@ module.exports = function (ctx, name, method) {
     return result === undefined ? this : result;
   }
 };
- },{}],82:[function(require,module,exports){ /*!
+ },{}],84:[function(require,module,exports){ /*!
  * Chai - addChainingMethod utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -4215,32 +4086,7 @@ module.exports = function (ctx, name, method, chainingBehavior) {
     , configurable: true
   });
 };
- },{"./transferFlags":75}],73:[function(require,module,exports){ /*!
- * Chai - getEnumerableProperties utility
- * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
- * MIT Licensed
- */
-
-/**
- * ### .getEnumerableProperties(object)
- *
- * This allows the retrieval of enumerable property names of an object,
- * inherited or not.
- *
- * @param {Object} object
- * @returns {Array}
- * @name getEnumerableProperties
- * @api public
- */
-
-module.exports = function getEnumerableProperties(object) {
-  var result = [];
-  for (var name in object) {
-    result.push(name);
-  }
-  return result;
-};
- },{}],72:[function(require,module,exports){ /*!
+ },{"./transferFlags":78}],75:[function(require,module,exports){ /*!
  * Chai - getProperties utility
  * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
  * MIT Licensed
@@ -4275,7 +4121,32 @@ module.exports = function getProperties(object) {
 
   return result;
 };
- },{}],88:[function(require,module,exports){ /*!
+ },{}],76:[function(require,module,exports){ /*!
+ * Chai - getEnumerableProperties utility
+ * Copyright(c) 2012-2013 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/**
+ * ### .getEnumerableProperties(object)
+ *
+ * This allows the retrieval of enumerable property names of an object,
+ * inherited or not.
+ *
+ * @param {Object} object
+ * @returns {Array}
+ * @name getEnumerableProperties
+ * @api public
+ */
+
+module.exports = function getEnumerableProperties(object) {
+  var result = [];
+  for (var name in object) {
+    result.push(name);
+  }
+  return result;
+};
+ },{}],94:[function(require,module,exports){ /*!
  * assertion-error
  * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>
  * MIT Licensed
@@ -4385,7 +4256,408 @@ AssertionError.prototype.toJSON = function (stack) {
 
   return props;
 };
- },{}],29:[function(require,module,exports){ function SlowBuffer (size) {
+ },{}],85:[function(require,module,exports){ module.exports = require('./lib/eql');
+ },{"./lib/eql":86}],86:[function(require,module,exports){ /*!
+ * deep-eql
+ * Copyright(c) 2013 Jake Luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/*!
+ * Module dependencies
+ */
+
+var type = require('type-detect');
+
+/*!
+ * Buffer.isBuffer browser shim
+ */
+
+var Buffer;
+try { Buffer = require('buffer').Buffer; }
+catch(ex) {
+  Buffer = {};
+  Buffer.isBuffer = function() { return false; }
+}
+
+/*!
+ * Primary Export
+ */
+
+module.exports = deepEqual;
+
+/**
+ * Assert super-strict (egal) equality between
+ * two objects of any type.
+ *
+ * @param {Mixed} a
+ * @param {Mixed} b
+ * @param {Array} memoised (optional)
+ * @return {Boolean} equal match
+ */
+
+function deepEqual(a, b, m) {
+  if (sameValue(a, b)) {
+    return true;
+  } else if ('date' === type(a)) {
+    return dateEqual(a, b);
+  } else if ('regexp' === type(a)) {
+    return regexpEqual(a, b);
+  } else if (Buffer.isBuffer(a)) {
+    return bufferEqual(a, b);
+  } else if ('arguments' === type(a)) {
+    return argumentsEqual(a, b, m);
+  } else if (!typeEqual(a, b)) {
+    return false;
+  } else if (('object' !== type(a) && 'object' !== type(b))
+  && ('array' !== type(a) && 'array' !== type(b))) {
+    return sameValue(a, b);
+  } else {
+    return objectEqual(a, b, m);
+  }
+}
+
+/*!
+ * Strict (egal) equality test. Ensures that NaN always
+ * equals NaN and `-0` does not equal `+0`.
+ *
+ * @param {Mixed} a
+ * @param {Mixed} b
+ * @return {Boolean} equal match
+ */
+
+function sameValue(a, b) {
+  if (a === b) return a !== 0 || 1 / a === 1 / b;
+  return a !== a && b !== b;
+}
+
+/*!
+ * Compare the types of two given objects and
+ * return if they are equal. Note that an Array
+ * has a type of `array` (not `object`) and arguments
+ * have a type of `arguments` (not `array`/`object`).
+ *
+ * @param {Mixed} a
+ * @param {Mixed} b
+ * @return {Boolean} result
+ */
+
+function typeEqual(a, b) {
+  return type(a) === type(b);
+}
+
+/*!
+ * Compare two Date objects by asserting that
+ * the time values are equal using `saveValue`.
+ *
+ * @param {Date} a
+ * @param {Date} b
+ * @return {Boolean} result
+ */
+
+function dateEqual(a, b) {
+  if ('date' !== type(b)) return false;
+  return sameValue(a.getTime(), b.getTime());
+}
+
+/*!
+ * Compare two regular expressions by converting them
+ * to string and checking for `sameValue`.
+ *
+ * @param {RegExp} a
+ * @param {RegExp} b
+ * @return {Boolean} result
+ */
+
+function regexpEqual(a, b) {
+  if ('regexp' !== type(b)) return false;
+  return sameValue(a.toString(), b.toString());
+}
+
+/*!
+ * Assert deep equality of two `arguments` objects.
+ * Unfortunately, these must be sliced to arrays
+ * prior to test to ensure no bad behavior.
+ *
+ * @param {Arguments} a
+ * @param {Arguments} b
+ * @param {Array} memoize (optional)
+ * @return {Boolean} result
+ */
+
+function argumentsEqual(a, b, m) {
+  if ('arguments' !== type(b)) return false;
+  a = [].slice.call(a);
+  b = [].slice.call(b);
+  return deepEqual(a, b, m);
+}
+
+/*!
+ * Get enumerable properties of a given object.
+ *
+ * @param {Object} a
+ * @return {Array} property names
+ */
+
+function enumerable(a) {
+  var res = [];
+  for (var key in a) res.push(key);
+  return res;
+}
+
+/*!
+ * Simple equality for flat iterable objects
+ * such as Arrays or Node.js buffers.
+ *
+ * @param {Iterable} a
+ * @param {Iterable} b
+ * @return {Boolean} result
+ */
+
+function iterableEqual(a, b) {
+  if (a.length !==  b.length) return false;
+
+  var i = 0;
+  var match = true;
+
+  for (; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      match = false;
+      break;
+    }
+  }
+
+  return match;
+}
+
+/*!
+ * Extension to `iterableEqual` specifically
+ * for Node.js Buffers.
+ *
+ * @param {Buffer} a
+ * @param {Mixed} b
+ * @return {Boolean} result
+ */
+
+function bufferEqual(a, b) {
+  if (!Buffer.isBuffer(b)) return false;
+  return iterableEqual(a, b);
+}
+
+/*!
+ * Block for `objectEqual` ensuring non-existing
+ * values don't get in.
+ *
+ * @param {Mixed} object
+ * @return {Boolean} result
+ */
+
+function isValue(a) {
+  return a !== null && a !== undefined;
+}
+
+/*!
+ * Recursively check the equality of two objects.
+ * Once basic sameness has been established it will
+ * defer to `deepEqual` for each enumerable key
+ * in the object.
+ *
+ * @param {Mixed} a
+ * @param {Mixed} b
+ * @return {Boolean} result
+ */
+
+function objectEqual(a, b, m) {
+  if (!isValue(a) || !isValue(b)) {
+    return false;
+  }
+
+  if (a.prototype !== b.prototype) {
+    return false;
+  }
+
+  var i;
+  if (m) {
+    for (i = 0; i < m.length; i++) {
+      if ((m[i][0] === a && m[i][1] === b)
+      ||  (m[i][0] === b && m[i][1] === a)) {
+        return true;
+      }
+    }
+  } else {
+    m = [];
+  }
+
+  try {
+    var ka = enumerable(a);
+    var kb = enumerable(b);
+  } catch (ex) {
+    return false;
+  }
+
+  ka.sort();
+  kb.sort();
+
+  if (!iterableEqual(ka, kb)) {
+    return false;
+  }
+
+  m.push([ a, b ]);
+
+  var key;
+  for (i = ka.length - 1; i >= 0; i--) {
+    key = ka[i];
+    if (!deepEqual(a[key], b[key], m)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+ },{"type-detect":87,"buffer":38}],87:[function(require,module,exports){ module.exports = require('./lib/type');
+ },{"./lib/type":88}],88:[function(require,module,exports){ /*!
+ * type-detect
+ * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
+ * MIT Licensed
+ */
+
+/*!
+ * Primary Exports
+ */
+
+var exports = module.exports = getType;
+
+/*!
+ * Detectable javascript natives
+ */
+
+var natives = {
+    '[object Array]': 'array'
+  , '[object RegExp]': 'regexp'
+  , '[object Function]': 'function'
+  , '[object Arguments]': 'arguments'
+  , '[object Date]': 'date'
+};
+
+/**
+ * ### typeOf (obj)
+ *
+ * Use several different techniques to determine
+ * the type of object being tested.
+ *
+ *
+ * @param {Mixed} object
+ * @return {String} object type
+ * @api public
+ */
+
+function getType (obj) {
+  var str = Object.prototype.toString.call(obj);
+  if (natives[str]) return natives[str];
+  if (obj === null) return 'null';
+  if (obj === undefined) return 'undefined';
+  if (obj === Object(obj)) return 'object';
+  return typeof obj;
+}
+
+exports.Library = Library;
+
+/**
+ * ### Library
+ *
+ * Create a repository for custom type detection.
+ *
+ * ```js
+ * var lib = new type.Library;
+ * ```
+ *
+ */
+
+function Library () {
+  this.tests = {};
+}
+
+/**
+ * #### .of (obj)
+ *
+ * Expose replacement `typeof` detection to the library.
+ *
+ * ```js
+ * if ('string' === lib.of('hello world')) {
+ *   // ...
+ * }
+ * ```
+ *
+ * @param {Mixed} object to test
+ * @return {String} type
+ */
+
+Library.prototype.of = getType;
+
+/**
+ * #### .define (type, test)
+ *
+ * Add a test to for the `.test()` assertion.
+ *
+ * Can be defined as a regular expression:
+ *
+ * ```js
+ * lib.define('int', /^[0-9]+$/);
+ * ```
+ *
+ * ... or as a function:
+ *
+ * ```js
+ * lib.define('bln', function (obj) {
+ *   if ('boolean' === lib.of(obj)) return true;
+ *   var blns = [ 'yes', 'no', 'true', 'false', 1, 0 ];
+ *   if ('string' === lib.of(obj)) obj = obj.toLowerCase();
+ *   return !! ~blns.indexOf(obj);
+ * });
+ * ```
+ *
+ * @param {String} type
+ * @param {RegExp|Function} test
+ * @api public
+ */
+
+Library.prototype.define = function (type, test) {
+  if (arguments.length === 1) return this.tests[type];
+  this.tests[type] = test;
+  return this;
+};
+
+/**
+ * #### .test (obj, test)
+ *
+ * Assert that an object is of type. Will first
+ * check natives, and if that does not pass it will
+ * use the user defined custom tests.
+ *
+ * ```js
+ * assert(lib.test('1', 'int'));
+ * assert(lib.test('yes', 'bln'));
+ * ```
+ *
+ * @param {Mixed} object
+ * @param {String} type
+ * @return {Boolean} result
+ * @api public
+ */
+
+Library.prototype.test = function (obj, type) {
+  if (type === getType(obj)) return true;
+  var test = this.tests[type];
+
+  if (test && 'regexp' === getType(test)) {
+    return test.test(obj);
+  } else if (test && 'function' === getType(test)) {
+    return test(obj);
+  } else {
+    throw new ReferenceError('Type test "' + type + '" not defined or invalid.');
+  }
+};
+ },{}],38:[function(require,module,exports){ function SlowBuffer (size) {
     this.length = size;
 };
 
@@ -5702,7 +5974,7 @@ SlowBuffer.prototype.writeFloatLE = Buffer.prototype.writeFloatLE;
 SlowBuffer.prototype.writeFloatBE = Buffer.prototype.writeFloatBE;
 SlowBuffer.prototype.writeDoubleLE = Buffer.prototype.writeDoubleLE;
 SlowBuffer.prototype.writeDoubleBE = Buffer.prototype.writeDoubleBE;
- },{"./buffer_ieee754":30,"base64-js":31,"assert":32}],30:[function(require,module,exports){ exports.readIEEE754 = function(buffer, offset, isBE, mLen, nBytes) {
+ },{"./buffer_ieee754":39,"base64-js":40,"assert":41}],39:[function(require,module,exports){ exports.readIEEE754 = function(buffer, offset, isBE, mLen, nBytes) {
   var e, m,
       eLen = nBytes * 8 - mLen - 1,
       eMax = (1 << eLen) - 1,
@@ -5786,7 +6058,7 @@ exports.writeIEEE754 = function(buffer, value, offset, isBE, mLen, nBytes) {
 
   buffer[offset + i - d] |= s * 128;
 };
- },{}],31:[function(require,module,exports){ (function (exports) {
+ },{}],40:[function(require,module,exports){ (function (exports) {
 	'use strict';
 
 	var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -5870,7 +6142,7 @@ exports.writeIEEE754 = function(buffer, value, offset, isBE, mLen, nBytes) {
 	module.exports.toByteArray = b64ToByteArray;
 	module.exports.fromByteArray = uint8ToBase64;
 }());
- },{}],32:[function(require,module,exports){ // UTILITY
+ },{}],41:[function(require,module,exports){ // UTILITY
 var util = require('util');
 var Buffer = require("buffer").Buffer;
 var pSlice = Array.prototype.slice;
@@ -6184,7 +6456,7 @@ assert.doesNotThrow = function(block, /*optional*/error, /*optional*/message) {
 };
 
 assert.ifError = function(err) { if (err) {throw err;}};
- },{"util":33,"buffer":29}],33:[function(require,module,exports){ var events = require('events');
+ },{"util":42,"buffer":38}],42:[function(require,module,exports){ var events = require('events');
 
 exports.isArray = isArray;
 exports.isDate = function(obj){return Object.prototype.toString.call(obj) === '[object Date]'};
@@ -6535,7 +6807,7 @@ exports.format = function(f) {
   }
   return str;
 };
- },{"events":34}],34:[function(require,module,exports){ if (!process.EventEmitter) process.EventEmitter = function () {};
+ },{"events":43}],43:[function(require,module,exports){ if (!process.EventEmitter) process.EventEmitter = function () {};
 
 var EventEmitter = exports.EventEmitter = process.EventEmitter;
 var isArray = typeof Array.isArray === 'function'
@@ -6718,7 +6990,7 @@ EventEmitter.prototype.listeners = function(type) {
   }
   return this._events[type];
 };
- },{}],47:[function(require,module,exports){ var punycode = { encode : function (s) { return s } };
+ },{}],50:[function(require,module,exports){ var punycode = { encode : function (s) { return s } };
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -7322,7 +7594,7 @@ function parseHost(host) {
   if (host) out.hostname = host;
   return out;
 }
- },{"querystring":48}],48:[function(require,module,exports){ var isArray = typeof Array.isArray === 'function'
+ },{"querystring":51}],51:[function(require,module,exports){ var isArray = typeof Array.isArray === 'function'
     ? Array.isArray
     : function (xs) {
         return Object.prototype.toString.call(xs) === '[object Array]'
@@ -7572,20 +7844,25 @@ function lastBraceInKey(str) {
     if ('=' == c && !brace) return i;
   }
 }
- },{}],51:[function(require,module,exports){ var subscribe = require("./lib/subscribe"),
+ },{}],54:[function(require,module,exports){ var subscribe = require("./lib/subscribe"),
     once      = require('./lib/once');
 
 module.exports = subscribe;
 module.exports.once = once;
- },{"./lib/subscribe":52,"./lib/once":53}],52:[function(require,module,exports){ module.exports = subscribe;
+ },{"./lib/subscribe":55,"./lib/once":56}],55:[function(require,module,exports){ module.exports = subscribe;
 
 function subscribe(/* pubsubs..., callback */){
-  var callback      = arguments[arguments.length - 1],
+  var sources = Array.prototype.slice.call(arguments, 0, arguments.length - 1),
+      callback = arguments[arguments.length - 1],
       subscriptions = [],
-      fired         = [],
+      fired = [],
       timer;
 
-  add.apply(undefined, Array.prototype.slice.call(arguments, 0, arguments.length - 1));
+  if (sources.length == 1 && Array.isArray(sources[0])) {
+    sources = sources[0];
+  }
+
+  add.apply(undefined, sources);
 
   return {
     list: subscriptions,
@@ -7640,7 +7917,7 @@ function subscribe(/* pubsubs..., callback */){
   }
 
 }
- },{}],53:[function(require,module,exports){ module.exports = once;
+ },{}],56:[function(require,module,exports){ module.exports = once;
 
 function once(){
   var pubsubs       = Array.prototype.slice.call(arguments, 0, arguments.length - 1),
@@ -7705,7 +7982,7 @@ function once(){
     };
   }
 }
- },{}],54:[function(require,module,exports){ module.exports = PubSub;
+ },{}],57:[function(require,module,exports){ module.exports = PubSub;
 
 function PubSub(mix){
 
@@ -7769,8 +8046,10 @@ function publish(from){
     });
   }
 
+  var callbacks;
   if (from && from.subscribersForOnce && from.subscribersForOnce.length > 0) {
-    from.subscribersForOnce.forEach(function(cb, i){
+    callbacks = from.subscribersForOnce.splice(0, from.subscribersForOnce.length);
+    callbacks.forEach(function(cb, i){
       if(!cb) return;
 
       try {
@@ -7779,9 +8058,7 @@ function publish(from){
         setTimeout(function(){ throw exc; }, 0);
       }
     });
-
-    from.subscribersForOnce = [];
-
+    delete callbacks;
   }
 
 }
@@ -7851,7 +8128,7 @@ function unsubscribeOnce(to, callback){
 
   return false;
 }
- },{}],59:[function(require,module,exports){ var pubsub = require("new-pubsub"),
+ },{}],62:[function(require,module,exports){ var pubsub = require("new-pubsub"),
     prop   = require("new-prop");
 
 module.exports        = attr;
@@ -7892,7 +8169,7 @@ function attrs(raw, exceptions){
 
   return obj;
 }
- },{"new-pubsub":60,"new-prop":61}],60:[function(require,module,exports){ module.exports = PubSub;
+ },{"new-pubsub":63,"new-prop":64}],63:[function(require,module,exports){ module.exports = PubSub;
 
 function PubSub(mix){
 
@@ -8038,7 +8315,7 @@ function unsubscribeOnce(to, callback){
 
   return false;
 }
- },{}],61:[function(require,module,exports){ module.exports = prop;
+ },{}],64:[function(require,module,exports){ module.exports = prop;
 
 /**
  * Create and return a new property.

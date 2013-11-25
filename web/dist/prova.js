@@ -84,7 +84,7 @@ function showIframe(){
   dom('body').addClass('open-iframe').removeClass('hidden-iframe');
 }
 
-if(pref('show-iframe') || params('show-iframe') != undefined){
+if(pref('show-iframe') || params('show-iframe')){
   showIframe();
 }
  },{"./grep":95,"./runner":119,"./io":122,"./params":96,"./timeout":165,"domquery":98,"pref":166}],95:[function(require,module,exports){ var params = require('./params'),
@@ -951,8 +951,10 @@ function publish(from){
     });
   }
 
+  var callbacks;
   if (from && from.subscribersForOnce && from.subscribersForOnce.length > 0) {
-    from.subscribersForOnce.forEach(function(cb, i){
+    callbacks = from.subscribersForOnce.splice(0, from.subscribersForOnce.length);
+    callbacks.forEach(function(cb, i){
       if(!cb) return;
 
       try {
@@ -961,9 +963,7 @@ function publish(from){
         setTimeout(function(){ throw exc; }, 0);
       }
     });
-
-    from.subscribersForOnce = [];
-
+    delete callbacks;
   }
 
 }
