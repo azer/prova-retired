@@ -5,7 +5,7 @@ A new pragmatic JavaScript testing framework for both NodeJS and browsers. [Scre
 ## Features
 
 - No configuration needed.
-- NodeJS and browsers supported. All you need is to pass `-b` parameter. It compiles your source code for browsers automatically with [OneJS](http://github.com/azer/onejs) 
+- NodeJS and browsers supported. All you need is to pass `-b` parameter. It browsefies and serves the source code for you.
 - Keep the browsers open, your tests will be run on any code change automatically.
 - Headless testing with PhantomJS with `-bv` parameter.
 - Beautified error output that show failing lines.
