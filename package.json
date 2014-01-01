@@ -1,6 +1,6 @@
 {
   "name": "prova",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pragmatic Testing Framework For NodeJS and Browsers.",
   "main": "lib/index.js",
   "bin": {
@@ -14,7 +14,6 @@
     "subscribe": "*",
     "optimist": "0.x",
     "chai": "1.x",
-    "one": "3.x",
     "glob": "3.x",
     "map": "*",
     "require-like": "0.x",
@@ -27,7 +26,8 @@
     "simple.io": "*",
     "uniques": "0.0.0",
     "after-time": "0.0.0",
-    "pref": "0.0.1"
+    "pref": "0.0.1",
+    "browserify": "~3.18.0"
   },
   "devDependencies": {
     "domquery": "0.x",
