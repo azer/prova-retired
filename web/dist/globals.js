@@ -90,7 +90,8 @@ var attrs = require("attr").attrs;
 
 module.exports = attrs({
   port: 7559,
-  timeout: 2000
+  timeout: 2000,
+  disableVM: false
 });
 
 },{"attr":7}],5:[function(require,module,exports){
@@ -583,11 +584,11 @@ exports.INSPECT_MAX_BYTES = 50
 Buffer.poolSize = 8192
 
 /**
- * If `browserSupport`:
+ * If `Buffer._useTypedArrays`:
  *   === true    Use Uint8Array implementation (fastest)
  *   === false   Use Object implementation (compatible down to IE6)
  */
-var browserSupport = (function () {
+Buffer._useTypedArrays = (function () {
    // Detect if browser supports Typed Arrays. Supported browsers are IE 10+,
    // Firefox 4+, Chrome 7+, Safari 5.1+, Opera 11.6+, iOS 4.2+.
    if (typeof Uint8Array === 'undefined' || typeof ArrayBuffer === 'undefined')
@@ -646,17 +647,18 @@ function Buffer (subject, encoding, noZero) {
     throw new Error('First argument needs to be a number, array or string.')
 
   var buf
-  if (browserSupport) {
+  if (Buffer._useTypedArrays) {
     // Preferred: Return an augmented `Uint8Array` instance for best performance
     buf = augment(new Uint8Array(length))
   } else {
     // Fallback: Return this instance of Buffer
     buf = this
     buf.length = length
+    buf._isBuffer = true
   }
 
   var i
-  if (Buffer.isBuffer(subject)) {
+  if (typeof Uint8Array === 'function' && subject instanceof Uint8Array) {
     // Speed optimization -- use set if we're copying from a Uint8Array
     buf.set(subject)
   } else if (isArrayish(subject)) {
@@ -669,7 +671,7 @@ function Buffer (subject, encoding, noZero) {
     }
   } else if (type === 'string') {
     buf.write(subject, 0, encoding)
-  } else if (type === 'number' && !browserSupport && !noZero) {
+  } else if (type === 'number' && !Buffer._useTypedArrays && !noZero) {
     for (i = 0; i < length; i++) {
       buf[i] = 0
     }
@@ -697,7 +699,7 @@ Buffer.isEncoding = function (encoding) {
 }
 
 Buffer.isBuffer = function (b) {
-  return b && b._isBuffer
+  return (b != null && b._isBuffer) || false
 }
 
 Buffer.byteLength = function (str, encoding) {
@@ -957,19 +959,15 @@ function _hexSlice (buf, start, end) {
   return out
 }
 
-// TODO: add test that modifying the new buffer slice will modify memory in the
-// original buffer! Use code from:
 // http://nodejs.org/api/buffer.html#buffer_buf_slice_start_end
 Buffer.prototype.slice = function (start, end) {
   var len = this.length
   start = clamp(start, len, 0)
   end = clamp(end, len, len)
 
-  if (browserSupport) {
+  if (Buffer._useTypedArrays) {
     return augment(this.subarray(start, end))
   } else {
-    // TODO: slicing works, with limitations (no parent tracking/update)
-    // https://github.com/feross/native-buffer-browserify/issues/9
     var sliceLen = end - start
     var newBuf = new Buffer(sliceLen, undefined, true)
     for (var i = 0; i < sliceLen; i++) {
@@ -1500,14 +1498,18 @@ function toHex (n) {
 
 function utf8ToBytes (str) {
   var byteArray = []
-  for (var i = 0; i < str.length; i++)
-    if (str.charCodeAt(i) <= 0x7F)
+  for (var i = 0; i < str.length; i++) {
+    var b = str.charCodeAt(i)
+    if (b <= 0x7F)
       byteArray.push(str.charCodeAt(i))
     else {
-      var h = encodeURIComponent(str.charAt(i)).substr(1).split('%')
+      var start = i
+      if (b >= 0xD800 && b <= 0xDFFF) i++
+      var h = encodeURIComponent(str.slice(start, i+1)).substr(1).split('%')
       for (var j = 0; j < h.length; j++)
         byteArray.push(parseInt(h[j], 16))
     }
+  }
   return byteArray
 }
 
@@ -1591,25 +1593,25 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 	function decode (elt) {
 		var code = elt.charCodeAt(0)
-		if(code === PLUS)
+		if (code === PLUS)
 			return 62 // '+'
-		if(code === SLASH)
+		if (code === SLASH)
 			return 63 // '/'
-		if(code < NUMBER)
+		if (code < NUMBER)
 			return -1 //no match
-		if(code < NUMBER + 10)
+		if (code < NUMBER + 10)
 			return code - NUMBER + 26 + 26
-		if(code < UPPER + 26)
+		if (code < UPPER + 26)
 			return code - UPPER
-		if(code < LOWER + 26)
+		if (code < LOWER + 26)
 			return code - LOWER + 26
 	}
 
-	function b64ToByteArray(b64) {
-		var i, j, l, tmp, placeHolders, arr;
+	function b64ToByteArray (b64) {
+		var i, j, l, tmp, placeHolders, arr
 
 		if (b64.length % 4 > 0) {
-			throw 'Invalid string. Length must be a multiple of 4';
+			throw new Error('Invalid string. Length must be a multiple of 4')
 		}
 
 		// the number of equal signs (place holders)
@@ -1621,13 +1623,10 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 		placeHolders = '=' === b64.charAt(len - 2) ? 2 : '=' === b64.charAt(len - 1) ? 1 : 0
 
 		// base64 is 4/3 + up to two characters of the original data
-		arr = new Arr(b64.length * 3 / 4 - placeHolders);
+		arr = new Arr(b64.length * 3 / 4 - placeHolders)
 
 		// if there are placeholders, only get up to the last complete 4 chars
-
-
-
-		l = placeHolders > 0 ? b64.length - 4 : b64.length;
+		l = placeHolders > 0 ? b64.length - 4 : b64.length
 
 		var L = 0
 
@@ -1636,68 +1635,67 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 		}
 
 		for (i = 0, j = 0; i < l; i += 4, j += 3) {
-			tmp = (decode(b64.charAt(i)) << 18) | (decode(b64.charAt(i + 1)) << 12) | (decode(b64.charAt(i + 2)) << 6) | decode(b64.charAt(i + 3));
-			push((tmp & 0xFF0000) >> 16);
-			push((tmp & 0xFF00) >> 8);
-			push(tmp & 0xFF);
+			tmp = (decode(b64.charAt(i)) << 18) | (decode(b64.charAt(i + 1)) << 12) | (decode(b64.charAt(i + 2)) << 6) | decode(b64.charAt(i + 3))
+			push((tmp & 0xFF0000) >> 16)
+			push((tmp & 0xFF00) >> 8)
+			push(tmp & 0xFF)
 		}
 
 		if (placeHolders === 2) {
-			tmp = (decode(b64.charAt(i)) << 2) | (decode(b64.charAt(i + 1)) >> 4);
-			push(tmp & 0xFF);
+			tmp = (decode(b64.charAt(i)) << 2) | (decode(b64.charAt(i + 1)) >> 4)
+			push(tmp & 0xFF)
 		} else if (placeHolders === 1) {
-			tmp = (decode(b64.charAt(i)) << 10) | (decode(b64.charAt(i + 1)) << 4) | (decode(b64.charAt(i + 2)) >> 2);
-			push((tmp >> 8) & 0xFF);
-			push(tmp & 0xFF);
+			tmp = (decode(b64.charAt(i)) << 10) | (decode(b64.charAt(i + 1)) << 4) | (decode(b64.charAt(i + 2)) >> 2)
+			push((tmp >> 8) & 0xFF)
+			push(tmp & 0xFF)
 		}
 
-		return arr;
+		return arr
 	}
 
-	function uint8ToBase64(uint8) {
+	function uint8ToBase64 (uint8) {
 		var i,
 			extraBytes = uint8.length % 3, // if we have 1 byte left, pad 2 bytes
 			output = "",
-			temp, length;
+			temp, length
 
 		function encode (num) {
 			return lookup.charAt(num)
 		}
 
 		function tripletToBase64 (num) {
-			return encode(num >> 18 & 0x3F) + encode(num >> 12 & 0x3F) + encode(num >> 6 & 0x3F) + encode(num & 0x3F);
-		};
+			return encode(num >> 18 & 0x3F) + encode(num >> 12 & 0x3F) + encode(num >> 6 & 0x3F) + encode(num & 0x3F)
+		}
 
 		// go through the array every three bytes, we'll deal with trailing stuff later
 		for (i = 0, length = uint8.length - extraBytes; i < length; i += 3) {
-			temp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2]);
-			output += tripletToBase64(temp);
+			temp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+			output += tripletToBase64(temp)
 		}
 
 		// pad the end with zeros, but make sure to not forget the extra bytes
 		switch (extraBytes) {
 			case 1:
-				temp = uint8[uint8.length - 1];
-				output += encode(temp >> 2);
-				output += encode((temp << 4) & 0x3F);
-				output += '==';
-				break;
+				temp = uint8[uint8.length - 1]
+				output += encode(temp >> 2)
+				output += encode((temp << 4) & 0x3F)
+				output += '=='
+				break
 			case 2:
-				temp = (uint8[uint8.length - 2] << 8) + (uint8[uint8.length - 1]);
-				output += encode(temp >> 10);
-				output += encode((temp >> 4) & 0x3F);
-				output += encode((temp << 2) & 0x3F);
-				output += '=';
-				break;
+				temp = (uint8[uint8.length - 2] << 8) + (uint8[uint8.length - 1])
+				output += encode(temp >> 10)
+				output += encode((temp >> 4) & 0x3F)
+				output += encode((temp << 2) & 0x3F)
+				output += '='
+				break
 		}
 
-		return output;
+		return output
 	}
 
-	module.exports.toByteArray = b64ToByteArray;
-	module.exports.fromByteArray = uint8ToBase64;
-}());
-
+	module.exports.toByteArray = b64ToByteArray
+	module.exports.fromByteArray = uint8ToBase64
+}())
 
 },{}],12:[function(require,module,exports){
 exports.read = function(buffer, offset, isLE, mLen, nBytes) {
@@ -7477,151 +7475,117 @@ Library.prototype.test = function (obj, type) {
 };
 
 },{}],48:[function(require,module,exports){
-module.exports = PubSub;
+module.exports = pubsub;
 
-function PubSub(mix){
+function pubsub (mix) {
+  var subscribers;
+  var subscribersForOnce;
 
-  var proxy = mix || function pubsubProxy(){
-    arguments.length && sub.apply(undefined, arguments);
+  mix || (mix = function (fn) {
+    if (fn) mix.subscribe(fn);
+  });
+
+  mix.subscribe = function (fn) {
+    if (!subscribers) return subscribers = fn;
+    if (typeof subscribers == 'function') subscribers = [subscribers];
+    subscribers.push(fn);
   };
 
-  function sub(callback){
-    subscribe(proxy, callback);
-  }
+  mix.subscribe.once = function (fn) {
+    if (!subscribersForOnce) return subscribersForOnce = fn;
+    if (typeof subscribersForOnce == 'function') subscribersForOnce = [subscribersForOnce];
+    subscribersForOnce.push(fn);
+  };
 
-  function subOnce(callback){
-    once(proxy, callback);
-  }
+  mix.unsubscribe = function (fn) {
+    if (!subscribers) return;
 
-  function unsubOnce(callback){
-    unsubscribeOnce(proxy, callback);
-  }
-
-  function unsub(callback){
-    unsubscribe(proxy, callback);
-  }
-
-  function pub(){
-    var args = [proxy];
-    Array.prototype.push.apply(args, arguments);
-    publish.apply(undefined, args);
-  }
-
-  proxy.subscribers        = [];
-  proxy.subscribersForOnce = [];
-
-  proxy.subscribe          = sub;
-  proxy.subscribe.once     = subOnce;
-  proxy.unsubscribe        = unsub;
-  proxy.unsubscribe.once   = unsubOnce;
-  proxy.publish            = pub;
-
-  return proxy;
-}
-
-/**
- * Publish "from" by applying given args
- *
- * @param {Function} from
- * @param {...Any} args
- */
-function publish(from){
-
-  var args = Array.prototype.slice.call(arguments, 1);
-
-  if (from && from.subscribers && from.subscribers.length > 0) {
-    from.subscribers.forEach(function(cb, i){
-      if(!cb) return;
-
-      try {
-        cb.apply(undefined, args);
-      } catch(exc) {
-        setTimeout(function(){ throw exc; }, 0);
-      }
-    });
-  }
-
-  var callbacks;
-  if (from && from.subscribersForOnce && from.subscribersForOnce.length > 0) {
-    callbacks = from.subscribersForOnce.splice(0, from.subscribersForOnce.length);
-    callbacks.forEach(function(cb, i){
-      if(!cb) return;
-
-      try {
-        cb.apply(undefined, args);
-      } catch(exc) {
-        setTimeout(function(){ throw exc; }, 0);
-      }
-    });
-    delete callbacks;
-  }
-
-}
-
-/**
- * Subscribe callback to given pubsub object.
- *
- * @param {Pubsub} to
- * @param {Function} callback
- */
-function subscribe(to, callback){
-  if(!callback) return false;
-  return to.subscribers.push(callback);
-}
-
-
-/**
- * Subscribe callback to given pubsub object for only one publish.
- *
- * @param {Pubsub} to
- * @param {Function} callback
- */
-function once(to, callback){
-  if(!callback) return false;
-
-  return to.subscribersForOnce.push(callback);
-}
-
-/**
- * Unsubscribe callback to given pubsub object.
- *
- * @param {Pubsub} to
- * @param {Function} callback
- */
-function unsubscribe(to, callback){
-  var i = to.subscribers.length;
-
-  while(i--){
-    if(to.subscribers[i] && to.subscribers[i] == callback){
-      to.subscribers[i] = undefined;
-
-      return i;
+    if (typeof subscribers == 'function') {
+      if (subscribers != fn) return;
+      subscribers = undefined;
+      return;
     }
-  }
 
-  return false;
-}
+    var i = subscribers.length;
 
-
-/**
- * Unsubscribe callback subscribed for once to specified pubsub.
- *
- * @param {Pubsub} to
- * @param {Function} callback
- * @return {Boolean or Number}
- */
-function unsubscribeOnce(to, callback){
-  var i = to.subscribersForOnce.length;
-
-  while(i--){
-    if(to.subscribersForOnce[i] && to.subscribersForOnce[i] == callback){
-      to.subscribersForOnce[i] = undefined;
-
-      return i;
+    while (i--) {
+      if (subscribers[i] && subscribers[i] == fn){
+        subscribers[i] = undefined;
+        return;
+      }
     }
-  }
+  };
 
-  return false;
+  mix.unsubscribe.once = function (fn) {
+    if (!subscribersForOnce) return;
+
+    if (typeof subscribersForOnce == 'function') {
+      if (subscribersForOnce != fn) return;
+      subscribersForOnce = undefined;
+      return;
+    }
+
+    var i = subscribersForOnce.length;
+
+    while (i--) {
+      if (subscribersForOnce[i] && subscribersForOnce[i] == fn){
+        subscribersForOnce[i] = undefined;
+        return;
+      }
+    }
+  };
+
+  mix.publish = function () {
+    var params = arguments;
+    var i, len;
+
+    if (subscribers && typeof subscribers != 'function' && subscribers.length) {
+      i = -1;
+      len = subscribers.length;
+
+      while (++i < len) {
+        if (!subscribers[i] || typeof subscribers[i] != 'function') continue;
+
+        try {
+          subscribers[i].apply(undefined, params);
+        } catch(err) {
+          setTimeout(function () { throw err; }, 0);
+        }
+      };
+    } else if (typeof subscribers == 'function') {
+      try {
+        subscribers.apply(undefined, params);
+      } catch(err) {
+        setTimeout(function () { throw err; }, 0);
+      }
+    }
+
+    if (subscribersForOnce && typeof subscribersForOnce != 'function' && subscribersForOnce.length) {
+      i = -1;
+      len = subscribersForOnce.length;
+
+      while (++i < len) {
+        if (!subscribersForOnce[i] || typeof subscribersForOnce[i] != 'function') continue;
+
+        try {
+          subscribersForOnce[i].apply(undefined, params);
+        } catch(err) {
+          setTimeout(function () { throw err; }, 0);
+        }
+      };
+
+      subscribersForOnce = undefined;
+    } else if (typeof subscribersForOnce == 'function') {
+      try {
+        subscribersForOnce.apply(undefined, params);
+      } catch(err) {
+        setTimeout(function () { throw err; }, 0);
+      }
+      subscribersForOnce = undefined;
+    }
+  };
+
+  return mix;
 }
 
 },{}],49:[function(require,module,exports){
