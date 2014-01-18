@@ -4,7 +4,7 @@
   "description": "Pragmatic Testing Framework For NodeJS and Browsers.",
   "main": "lib/index.js",
   "bin": {
-    "prova": "./bin/prova"
+    "prova": "./bin/prova test/index.js -t 2500"
   },
   "scripts": {
     "test": "./bin/prova"
