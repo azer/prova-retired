@@ -14,6 +14,7 @@ var argv = opt
       .options('port', { alias: 'p' })
       .options('timeout', { alias: 't' })
       .options('no-vm', { alias: 'V' })
+      .options('kstack', { alias: 'S' })
       .options('version', { alias: 'v' })
       .options('help', { alias: 'h' })
       .argv;
@@ -25,6 +26,7 @@ if (argv.inc) browser.include(argv.inc);
 if (argv.port) options.port(argv.port);
 if (argv.timeout) options.timeout(argv.timeout);
 if (argv['no-vm']) options.disableVM(true);
+if (argv.kstack) options.keepStack(true);
 if (argv.grep) grep.pattern(argv.grep);
 
 if(argv.browser && argv.version) argv.visit = true;

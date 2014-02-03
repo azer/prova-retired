@@ -13,6 +13,7 @@
         -t     --timeout    Set test-case timeout in milliseconds [2000]
 
         -V     --no-vm      Run tests in normal context, instead of a custom VM context.
+        -S     --kstack     Disables Prova's modifying stack trace for showing better stack traces.
 
         -v     --version    Show version and exit
         -h     --help       Show help and exit
