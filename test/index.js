@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 var globalBefore     = 0,
     globalBeforeEach = 0,
     globalAfter      = 0,
@@ -81,16 +83,21 @@ describe('TestSuite', function(){
 
 });
 
+it('transfroms fs.readFileSync calls for browsers', function(){
+  var fruits = fs.readFileSync('./test/fruits.txt').toString();
+  expect(fruits).to.equal('apple\norange\ncherry\ngrape\n');
+});
+
 it('may have tests without description', function(){
   expect(globalBefore).to.equal(1);
-  expect(globalBeforeEach).to.equal(6);
-  expect(globalAfterEach).to.equal(5);
+  expect(globalBeforeEach).to.equal(7);
+  expect(globalAfterEach).to.equal(6);
 });
 
 it('calls global beforeEach and afterEach for tests on top scope', function(){
   expect(globalBefore).to.equal(1);
-  expect(globalBeforeEach).to.equal(7);
-  expect(globalAfterEach).to.equal(6);
+  expect(globalBeforeEach).to.equal(8);
+  expect(globalAfterEach).to.equal(7);
 });
 
 afterEach(function(){
@@ -99,6 +106,6 @@ afterEach(function(){
 });
 
 after(function(done){
-  expect(globalAfterEach).to.equal(7);
+  expect(globalAfterEach).to.equal(8);
   done();
 });

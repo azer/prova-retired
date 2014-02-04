@@ -29,7 +29,7 @@ if (argv['no-vm']) options.disableVM(true);
 if (argv.kstack) options.keepStack(true);
 if (argv.grep) grep.pattern(argv.grep);
 
-if(argv.browser && argv.version) argv.visit = true;
-if(argv.visit) argv.browser = true;
+if (argv.browser && argv.version) argv.visit = true;
+if (argv.visit) argv.browser = true;
 
-( argv.browser ? browser : cli )(argv);
+(argv.browser ? browser : cli)(argv);

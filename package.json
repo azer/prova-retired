@@ -31,7 +31,8 @@
     "browserify": "~3.18.0",
     "concat-stream": "~1.4.1",
     "local-debug": "0.0.0",
-    "watchify": "~0.5.6"
+    "watchify": "~0.5.6",
+    "brfs": "0.0.9"
   },
   "devDependencies": {
     "domquery": "0.x",
