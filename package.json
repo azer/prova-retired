@@ -28,7 +28,10 @@
     "uniques": "0.0.0",
     "after-time": "0.0.0",
     "pref": "0.0.1",
-    "browserify": "~3.18.0"
+    "browserify": "~3.18.0",
+    "concat-stream": "~1.4.1",
+    "local-debug": "0.0.0",
+    "watchify": "~0.5.6"
   },
   "devDependencies": {
     "domquery": "0.x",
