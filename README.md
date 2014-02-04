@@ -5,11 +5,11 @@ A new pragmatic JavaScript testing framework for both NodeJS and browsers. [Scre
 ## Features
 
 - No configuration needed.
-- NodeJS and browsers supported. All you need is to pass `-b` parameter. It browsefies and serves the source code for you.
-- Keep the browsers open, your tests will be run on any code change automatically.
-- Headless testing with PhantomJS with `-bv` parameter.
+- It's quite simple, run `prova` command to run on Node, add `-b` parameter to run on browsers (browserifies for you)
+- Keep the browsers always open, it enables watchify as well, so your browser will run your tests automatically
+- Headless testing is simple as well, run tests in PhantomJS by `-bv` parameter.
 - Beautified error output that show failing lines.
-- ChaiJS is injected to every module to avoid repeating.
+- ChaiJS is injected to every module to avoid repeating. If don't prefer injection, pass `-V` to avoid it.
 - Mostly compatible with Mocha.
 
 ## Install
