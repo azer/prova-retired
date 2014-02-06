@@ -4,8 +4,8 @@ prova = cmd.async './bin/prova'
 all 'web/dist', 'test-node', 'test-browser'
 
 target 'web/dist', 'lib', 'web/app', ->
-  browserify 'web/app/globals.js -o web/dist/globals.js'
-  browserify 'web/app/index.js -o web/dist/prova.js'
+  browserify 'web/app/globals.js -o web/dist/globals.js -d'
+  browserify 'web/app/index.js -o web/dist/prova.js -d'
 
 task 'test-node', ->
   prova 'test/index -t 2500'
