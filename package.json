@@ -19,8 +19,6 @@
     "require-like": "0.x",
     "express": "3.3.4",
     "styled": "0.0.1",
-    "show-help": "0.0.0",
-    "show-version": "0.0.0",
     "attr": "0.0.1",
     "phantom": "~0.5.1",
     "simple.io": "*",
