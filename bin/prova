@@ -1,35 +1,27 @@
 #!/usr/bin/env node
 
-var opt     = require('optimist'),
-    options = require('../lib/options'),
-    browser = require('../lib/browser'),
-    grep    = require('../lib/grep'),
-    cli     = require('../lib/cli');
+var command = require("new-command")({
+  b: 'browser',
+  i: 'visit',
+  g: 'grep',
+  p: 'port',
+  t: 'timeout',
+  V: 'no-vm',
+  S: 'kstack'
+});
 
-var argv = opt
-      .options('browser', { alias: 'b' })
-      .options('visit', { alias: 'bv' })
-      .options('inc', { alias: 'i' })
-      .options('grep', { alias: 'g' })
-      .options('port', { alias: 'p' })
-      .options('timeout', { alias: 't' })
-      .options('no-vm', { alias: 'V' })
-      .options('kstack', { alias: 'S' })
-      .options('version', { alias: 'v' })
-      .options('help', { alias: 'h' })
-      .argv;
+var options = require('../lib/options');
+var browser = require('../lib/browser');
+var grep = require('../lib/grep');
+var cli = require('../lib/cli');
 
-if (argv.help) require('show-help');
-if (argv.version && !argv.browser) require('show-version');
+if (command.port) options.port(command.port);
+if (command.timeout) options.timeout(command.timeout);
+if (command['no-vm']) options.disableVM(true);
+if (command.kstack) options.keepStack(true);
+if (command.grep) grep.pattern(command.grep);
 
-if (argv.inc) browser.include(argv.inc);
-if (argv.port) options.port(argv.port);
-if (argv.timeout) options.timeout(argv.timeout);
-if (argv['no-vm']) options.disableVM(true);
-if (argv.kstack) options.keepStack(true);
-if (argv.grep) grep.pattern(argv.grep);
+if (command.browser && command.version) command.visit = true;
+if (command.visit) command.browser = true;
 
-if (argv.browser && argv.version) argv.visit = true;
-if (argv.visit) argv.browser = true;
-
-(argv.browser ? browser : cli)(argv);
+(command.browser ? browser : cli)(command);
