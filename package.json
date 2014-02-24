@@ -1,6 +1,6 @@
 {
   "name": "prova",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "description": "Pragmatic Testing Framework For NodeJS and Browsers.",
   "main": "lib/index.js",
   "bin": {
