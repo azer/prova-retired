@@ -30,7 +30,9 @@
     "local-debug": "0.0.0",
     "watchify": "~0.5.6",
     "brfs": "0.0.9",
-    "new-command": "0.0.0"
+    "new-command": "0.0.0",
+    "iter": "0.0.x",
+    "run-paralelly": "0.0.0"
   },
   "devDependencies": {
     "domquery": "0.x",

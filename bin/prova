@@ -7,7 +7,9 @@ var command = require("new-command")({
   p: 'port',
   t: 'timeout',
   V: 'no-vm',
-  S: 'kstack'
+  S: 'kstack',
+  j: 'json',
+  c: 'cp'
 });
 
 var options = require('../lib/options');

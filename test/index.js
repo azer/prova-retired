@@ -61,7 +61,7 @@ describe('TestSuite', function(){
   it('waits until specified timeout (default 1500)', function(done){
     setTimeout(function () {
       done();
-    }, 2350);
+    }, 1200);
   });
 
 
