@@ -15,7 +15,8 @@
         -S     --kstack     Disables Prova's modifying stack trace for showing better stack traces.
 
         -j     --json       Output in JSON format.
-        -c     --cp         Run as child process(es).
+        -c     --cp         Run as child process(es) paralelly.
+        -C     --cs         Run as child process(es) serially.
 
         -v     --version    Show version and exit
         -h     --help       Show help and exit

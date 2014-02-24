@@ -4,7 +4,7 @@ describe('#Foo', function self(){
 
     console.log('%s throws %s', test.title, error)
 
-  })
+  });
 
   it('will sing us a rap song', function(){
 
