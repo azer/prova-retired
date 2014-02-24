@@ -9,7 +9,8 @@ var command = require("new-command")({
   V: 'no-vm',
   S: 'kstack',
   j: 'json',
-  c: 'cp'
+  c: 'cp',
+  C: 'cs'
 });
 
 var options = require('../lib/options');
